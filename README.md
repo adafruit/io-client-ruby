@@ -18,6 +18,21 @@ Or install it yourself as:
 
 ## Usage
 
+  Easiest
+  
+    require 'adafruit/io'
+    aio = Adafruit::IO::Client.new :key => 'unique_key_id'
+    #data can be of any type, string, number, hash, json
+    aio.send("Feed Name", data)
+
+    #You can also receive data easily:
+    value = aio.receive("Feed Name")
+
+    #It will ge the next input available, and mark it as read.
+
+
+  Advanced
+
     require 'adafruit/io'
     client = Adafruit::IO::Client.new :key => 'unique_key_id'
 
