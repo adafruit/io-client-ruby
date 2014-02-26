@@ -1,4 +1,4 @@
-# Adafruit::Io
+# Adafruit::IO
 
 TODO: Write a gem description
 
