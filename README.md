@@ -21,9 +21,19 @@ Or install it yourself as:
     require 'adafruit/io'
     client = Adafruit::IO::Client.new :key => 'unique_key_id'
 
+    #get all of your feeds for the key
+    client.feeds
+
+    #get a specific feed using ID or Name
+    client.feeds(3)
+    client.feeds("feed name")
+
+    #create a feed
+    client.create_feed({:name => "New Feed Name", ...})
+
 ## Contributing
 
-1. Fork it ( http://github.com/<my-github-username>/adafruit-io/fork )
+1. Fork it ( http://github.com/adafruit/io-client-ruby/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
