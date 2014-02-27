@@ -4,6 +4,8 @@ require 'faraday_middleware'
 require 'faraday_middleware/response/mashify'
 require 'json'
 require 'adafruit/io/client/feeds'
+require 'adafruit/io/client/outputs'
+require 'adafruit/io/client/inputs'
 require 'adafruit/io/client/request_handler'
 
 module Adafruit
@@ -11,6 +13,8 @@ module Adafruit
     class Client
 
       include Adafruit::IO::Client::Feeds
+      include Adafruit::IO::Client::Outputs
+      include Adafruit::IO::Client::Inputs
       include Adafruit::IO::Client::RequestHandler
 
       def initialize(options)
@@ -21,9 +25,13 @@ module Adafruit
         request :handle_get, url
       end
 
-      def post(url, options = {})
-        request :handle_post, url
+      def post(url, data, options = {})
+        request :handle_post, url, data, options
       end
+
+      def put(url, options = {})
+        request :handle_put, url
+      end      
 
       def last_response
         @last_response
@@ -47,7 +55,7 @@ module Adafruit
       end
 
       def request(method, url, data = nil, options = nil)
-        @last_response = response = send(method, url)
+        @last_response = response = send(method, url, data)
       end
 
 
