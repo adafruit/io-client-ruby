@@ -4,10 +4,10 @@ module Adafruit
   module IO
     class Client
       module Outputs
-        def out(name, data)
-          name = URI::escape(name)
-          if name
-            post "feeds/#{name}/outputs/out", {:value => data}
+        def out(feed_name, data = nil)
+          feed_name = URI::escape(feed_name)
+          if feed_name
+            post "feeds/#{feed_name}/outputs/send", {:value => data}
           else
 
           end

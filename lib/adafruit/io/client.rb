@@ -4,8 +4,7 @@ require 'faraday_middleware'
 require 'faraday_middleware/response/mashify'
 require 'json'
 require 'adafruit/io/client/feeds'
-require 'adafruit/io/client/outputs'
-require 'adafruit/io/client/inputs'
+require 'adafruit/io/client/streams'
 require 'adafruit/io/client/request_handler'
 
 module Adafruit
@@ -13,8 +12,7 @@ module Adafruit
     class Client
 
       include Adafruit::IO::Client::Feeds
-      include Adafruit::IO::Client::Outputs
-      include Adafruit::IO::Client::Inputs
+      include Adafruit::IO::Client::Streams
       include Adafruit::IO::Client::RequestHandler
 
       def initialize(options)
