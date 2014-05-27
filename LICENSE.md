@@ -1,4 +1,5 @@
-Copyright (c) 2014 Justin Cooper
+Copyright (c) 2014 Adafruit
+Author: Justin Cooper
 
 MIT License
 
