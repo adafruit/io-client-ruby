@@ -11,6 +11,8 @@ aio = Adafruit::IO::Client.new :key => 'a052ecc32b2de1c80abc03bd471acd1d6b218e5c
 #  sleep(1)
 #}
 
-puts aio.send_group("First Group", {"temperature" => 45, "humidity" => 32})
+#puts aio.send_group("First Group", {"temperature" => 45, "humidity" => 32})
 
-puts aio.receive_group("First Group", {"temperature" => 45, "humidity" => 32})
+hash = aio.receive_group("First Group")
+
+puts hash

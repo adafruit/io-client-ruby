@@ -16,7 +16,7 @@ module Adafruit
         def receive_group(group_name)
           if group_name
             group_name = URI::escape(group_name)
-            get "feeds/#{group_name}/last", {:value => data}
+            get "groups/#{group_name}/last"
           else
 
           end
@@ -25,7 +25,7 @@ module Adafruit
         def receive_next_group(group_name)
           if group_name
             group_name = URI::escape(group_name)
-            get "feeds/#{group_name}/next", {:value => data}
+            get "groups/#{group_name}/next"
           else
 
           end
