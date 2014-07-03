@@ -4,6 +4,7 @@ require 'faraday_middleware'
 require 'faraday_middleware/response/mashify'
 require 'json'
 require 'adafruit/io/client/feeds'
+require 'adafruit/io/client/groups'
 require 'adafruit/io/client/streams'
 require 'adafruit/io/client/request_handler'
 
@@ -12,6 +13,7 @@ module Adafruit
     class Client
 
       include Adafruit::IO::Client::Feeds
+      include Adafruit::IO::Client::Groups
       include Adafruit::IO::Client::Streams
       include Adafruit::IO::Client::RequestHandler
 
@@ -38,17 +40,17 @@ module Adafruit
   private 
 
       def conn
-        conn = Faraday.new(:url => 'http://localhost:3002') do |conn|
-          conn.headers['X-Api-Key'] = @key
-          conn.headers['Accept'] = 'application/json'
-          conn.request :json
+        connection = Faraday.new(:url => 'http://localhost:3002') do |c|
+          c.headers['X-Api-Key'] = @key
+          c.headers['Accept'] = 'application/json'
+          c.request :json
 
-          conn.response :xml,  :content_type => /\bxml$/
-          conn.response :mashify, :content_type => /\bjson$/
-          conn.response :json
+          c.response :xml,  :content_type => /\bxml$/
+          c.response :mashify, :content_type => /\bjson$/
+          c.response :json
 
-          conn.use :instrumentation
-          conn.adapter Faraday.default_adapter
+          c.use :instrumentation
+          c.adapter Faraday.default_adapter
         end
       end
 
