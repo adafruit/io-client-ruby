@@ -40,8 +40,9 @@ module Adafruit
   private 
 
       def conn
-        connection = Faraday.new(:url => 'http://localhost:3002') do |c|
-          c.headers['X-Api-Key'] = @key
+        #connection = Faraday.new(:url => 'http://localhost:3002') do |c|
+        connection = Faraday.new(:url => 'http://io.ladyada.org') do |c|
+          c.headers['X-AIO-Key'] = @key
           c.headers['Accept'] = 'application/json'
           c.request :json
 
