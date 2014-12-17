@@ -1,7 +1,8 @@
 require 'adafruit/io'
 
-aio = Adafruit::IO::Client.new :key => 'a052ecc32b2de1c80abc03bd471acd1d6b218e5c'
-#aio.out("Test Send", 22)
+aio = Adafruit::IO::Client.new :key => 'API_KEY_HERE'
+aio.send_data("Test Send", 22)
+puts aio.receive("Test Send")
 #client.create_feed({:name => "Weather Station", :mode => "output"})
 #puts client.feeds(3)
 #aio.send_data("Test Send", 0)
@@ -13,6 +14,6 @@ aio = Adafruit::IO::Client.new :key => 'a052ecc32b2de1c80abc03bd471acd1d6b218e5c
 
 #puts aio.send_group("First Group", {"temperature" => 45, "humidity" => 32})
 
-hash = aio.receive_group("First Group")
+#hash = aio.receive_group("First Group")
 
 puts hash
