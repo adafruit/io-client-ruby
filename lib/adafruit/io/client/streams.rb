@@ -16,7 +16,7 @@ module Adafruit
         def receive(feed_name)
           if feed_name
             feed_name = URI::escape(feed_name)
-            get "feeds/#{feed_name}/streams/last", {:value => data}
+            get "feeds/#{feed_name}/streams/last"
           else
 
           end
