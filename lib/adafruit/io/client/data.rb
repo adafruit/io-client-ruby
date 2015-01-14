@@ -3,11 +3,11 @@ require 'uri'
 module Adafruit
   module IO
     class Client
-      module Streams
+      module Data
         def send_data(feed_name, data)
           if feed_name
             feed_name = URI::escape(feed_name)
-            post "feeds/#{feed_name}/streams/send", {:value => data}
+            post "feeds/#{feed_name}/data/send", {:value => data}
           else
 
           end
@@ -16,7 +16,7 @@ module Adafruit
         def receive(feed_name)
           if feed_name
             feed_name = URI::escape(feed_name)
-            get "feeds/#{feed_name}/streams/last"
+            get "feeds/#{feed_name}/data/last"
           else
 
           end
@@ -25,22 +25,22 @@ module Adafruit
         def receive_next(feed_name)
           if feed_name
             feed_name = URI::escape(feed_name)
-            get "feeds/#{feed_name}/streams/next", {:value => data}
+            get "feeds/#{feed_name}/data/next", {:value => data}
           else
 
           end
         end        
 
-        def streams(feed_id_or_key, output_id=nil, options = {})
+        def data(feed_id_or_key, output_id=nil, options = {})
           if input_id
-            get "feeds/#{feed_id_or_key}/streams/#{input_id}", options
+            get "feeds/#{feed_id_or_key}/data/#{input_id}", options
           else
-            get "feeds/#{feed_id_or_key}/streams", options
+            get "feeds/#{feed_id_or_key}/data", options
           end
         end
 
-        def create_stream(feed_id_or_key, options = {})       
-          post "feeds/#{feed_id_or_key}/streams", options
+        def create_data(feed_id_or_key, options = {})       
+          post "feeds/#{feed_id_or_key}/data", options
         end
       end
     end

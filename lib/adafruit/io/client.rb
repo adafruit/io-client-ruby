@@ -5,7 +5,7 @@ require 'faraday_middleware/response/mashify'
 require 'json'
 require 'adafruit/io/client/feeds'
 require 'adafruit/io/client/groups'
-require 'adafruit/io/client/streams'
+require 'adafruit/io/client/data'
 require 'adafruit/io/client/request_handler'
 
 module Adafruit
@@ -14,7 +14,7 @@ module Adafruit
 
       include Adafruit::IO::Client::Feeds
       include Adafruit::IO::Client::Groups
-      include Adafruit::IO::Client::Streams
+      include Adafruit::IO::Client::Data
       include Adafruit::IO::Client::RequestHandler
 
       def initialize(options)
