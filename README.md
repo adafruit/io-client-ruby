@@ -1,6 +1,6 @@
-# Adafruit::IO
+# adafruit-io
 
-TODO: Write a gem description
+A [Ruby][1] client for use with with [io.adafruit.com][2].
 
 ## Installation
 
@@ -53,3 +53,6 @@ Or install it yourself as:
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+[1]https://www.ruby-lang.org
+[2]https://io.adafruit.com
