@@ -1,4 +1,4 @@
 require 'adafruit/io'
 
 # create an instance
-aio = Adafruit::IO::Client.new :key => 'API_KEY_HERE'
+aio = Adafruit::IO::Client.new :key => 'AIO_KEY_HERE'
