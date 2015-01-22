@@ -24,7 +24,14 @@ module Adafruit
             req.body = data
           end
           return response.body
-        end        
+        end
+
+        def handle_delete(url, options = {})
+          response = conn.delete do |req|
+            req.url "api/#{url}"
+          end
+          return response.status
+        end 
       end
     end
   end

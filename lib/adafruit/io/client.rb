@@ -3,7 +3,7 @@ require 'faraday'
 require 'faraday_middleware'
 require 'faraday_middleware/response/mashify'
 require 'json'
-require 'adafruit/io/client/feeds'
+require 'adafruit/io/client/feed'
 require 'adafruit/io/client/groups'
 require 'adafruit/io/client/data'
 require 'adafruit/io/client/request_handler'
@@ -12,7 +12,7 @@ module Adafruit
   module IO
     class Client
 
-      include Adafruit::IO::Client::Feeds
+      #include Adafruit::IO::Client::Feeds
       include Adafruit::IO::Client::Groups
       include Adafruit::IO::Client::Data
       include Adafruit::IO::Client::RequestHandler
@@ -31,10 +31,20 @@ module Adafruit
 
       def put(url, options = {})
         request :handle_put, url
-      end      
+      end
+
+      def delete(url, options = {})
+        request :handle_delete, url
+      end
 
       def last_response
         @last_response
+      end
+
+      def feeds(id_or_key = nil)
+        feeds = Adafruit::IO::Feed.new(self, id_or_key)
+
+        return feeds
       end
 
   private 
@@ -47,8 +57,8 @@ module Adafruit
           c.request :json
 
           c.response :xml,  :content_type => /\bxml$/
-          c.response :mashify, :content_type => /\bjson$/
-          c.response :json
+          #c.response :mashify, :content_type => /\bjson$/
+          #c.response :json
 
           c.use :instrumentation
           c.adapter Faraday.default_adapter
