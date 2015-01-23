@@ -2,7 +2,7 @@ require 'adafruit/io/client/io_object'
 
 module Adafruit
   module IO
-    class Groups < IOObject
+    class Group < IOObject
       def initialize(client = nil, id_or_key = nil)
         @client = client
         @id_or_key = id_or_key

@@ -40,10 +40,12 @@ module Adafruit
       end
 
       def feeds(id_or_key = nil)
-        feeds = Adafruit::IO::Feed.new(self, id_or_key)
-
-        return feeds
+        Adafruit::IO::Feed.new(self, id_or_key)
       end
+
+      def groups(id_or_key = nil)
+        Adafruit::IO::Group.new(self, id_or_key)
+      end      
 
   private 
 
