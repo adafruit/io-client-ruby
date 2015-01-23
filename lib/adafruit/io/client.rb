@@ -29,8 +29,8 @@ module Adafruit
         request :handle_post, url, data, options
       end
 
-      def put(url, options = {})
-        request :handle_put, url
+      def put(url, data, options = {})
+        request :handle_put, url, data, options
       end
 
       def delete(url, options = {})
