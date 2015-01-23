@@ -4,7 +4,7 @@ require 'faraday_middleware'
 require 'faraday_middleware/response/mashify'
 require 'json'
 require 'adafruit/io/client/feed'
-require 'adafruit/io/client/groups'
+require 'adafruit/io/client/group'
 require 'adafruit/io/client/data'
 require 'adafruit/io/client/request_handler'
 
