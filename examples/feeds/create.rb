@@ -1,6 +1,6 @@
 require 'adafruit/io'
 
 # create an instance
-aio = Adafruit::IO::Client.new :key => 'API_KEY_HERE'
+aio = Adafruit::IO::Client.new :key => 'AIO_KEY_HERE'
 
-puts aio.create_feed({:name => "Temperature"})
+puts aio.feeds.create({:name => "Temperature"})
