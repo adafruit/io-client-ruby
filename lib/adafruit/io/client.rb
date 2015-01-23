@@ -12,7 +12,6 @@ module Adafruit
   module IO
     class Client
 
-      include Adafruit::IO::Client::Data
       include Adafruit::IO::Client::RequestHandler
 
       def initialize(options)
@@ -46,6 +45,10 @@ module Adafruit
       def groups(id_or_key = nil)
         Adafruit::IO::Group.new(self, id_or_key)
       end      
+
+      def data(id_or_key = nil)
+        Adafruit::IO::Data.new(self, id_or_key)
+      end    
 
   private 
 
