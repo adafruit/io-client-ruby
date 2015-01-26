@@ -53,7 +53,7 @@ module Adafruit
   private 
 
       def conn
-        connection = Faraday.new(:url => 'http://localhost:3002') do |c|
+        Faraday.new(:url => 'http://localhost:3002') do |c|
         #connection = Faraday.new(:url => 'https://io.adafruit.com') do |c|
           c.headers['X-AIO-Key'] = @key
           c.headers['Accept'] = 'application/json'
