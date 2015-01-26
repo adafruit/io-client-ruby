@@ -59,8 +59,13 @@ module Adafruit
         receive
       end
 
-      def receive_next(feed_name)
-        response = @client.get "#{@base_url}/data/next", {:value => data}
+      def next
+        response = @client.get "#{@base_url}/data/next"
+        return process_response(response)
+      end
+
+      def previous(feed_name)
+        response = @client.get "#{@base_url}/data/previous"
         return process_response(response)
       end        
     end
