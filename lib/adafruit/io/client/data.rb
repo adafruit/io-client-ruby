@@ -46,30 +46,22 @@ module Adafruit
       end
 
       def send_data(feed_name, data)
-        if feed_name
-          feed_name = URI::escape(feed_name)
-          post "#{@base_url}/data/send", {:value => data}
-        else
-
-        end
+        response = @client.post "#{@base_url}/data/send", {:value => data}
+        return process_response(response)
       end
 
-      def receive(feed_name)
-        if feed_name
-          feed_name = URI::escape(feed_name)
-          get "#{@base_url}/data/last"
-        else
+      def receive
+        response = @client.get "#{@base_url}/data/last"
+        return process_response(response)
+      end
 
-        end
+      def last
+        receive
       end
 
       def receive_next(feed_name)
-        if feed_name
-          feed_name = URI::escape(feed_name)
-          get "#{@base_url}/data/next", {:value => data}
-        else
-
-        end
+        response = @client.get "#{@base_url}/data/next", {:value => data}
+        return process_response(response)
       end        
     end
   end
