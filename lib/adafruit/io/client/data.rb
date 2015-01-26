@@ -45,7 +45,7 @@ module Adafruit
         return process_response(response)
       end
 
-      def send_data(feed_name, data)
+      def send_data(data)
         response = @client.post "#{@base_url}/data/send", {:value => data}
         return process_response(response)
       end
