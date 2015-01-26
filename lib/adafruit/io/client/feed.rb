@@ -1,10 +1,11 @@
 require 'adafruit/io/client/io_object'
+require 'adafruit/io/client/data'
 
 module Adafruit
   module IO
 
     class Feed < IOObject
-      attr_accessor :unsaved_values
+      attr_accessor :unsaved_values, :id_or_key
 
       def initialize(client = nil, id_or_key = nil)
         @client = client
@@ -44,6 +45,11 @@ module Adafruit
 
         return process_response(response)
       end
+
+      def data(id_or_key = nil)
+        Adafruit::IO::Data.new(@client, self, id_or_key)
+      end    
+
     end
 
   end

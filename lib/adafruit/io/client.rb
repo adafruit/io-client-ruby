@@ -46,8 +46,8 @@ module Adafruit
         Adafruit::IO::Group.new(self, id_or_key)
       end      
 
-      def data(id_or_key = nil)
-        Adafruit::IO::Data.new(self, id_or_key)
+      def data(feed_id_or_key = nil, id_or_key = nil)
+        Adafruit::IO::Data.new(self, feed_id_or_key, id_or_key)
       end    
 
   private 

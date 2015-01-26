@@ -27,14 +27,23 @@ module Adafruit
 
         def process_response(response)
           response = JSON.parse(response, :symbolize_names => true)
+          puts response
 
           if response.is_a?(Array)
             obj_list = []
             response.each do |r|
-              obj_list.push(self.class.new(@client, @id_or_key).parse(r))
+              if @feed.present?
+                obj_list.push(self.class.new(@client, @feed, @id_or_key).parse(r))
+              else
+                obj_list.push(self.class.new(@client, @id_or_key).parse(r))
+              end
             end
           else
-            obj_list = self.class.new(@client, @id_or_key).parse(response)
+            if @feed.present?
+              obj_list = self.class.new(@client, @feed, @id_or_key).parse(response)
+            else
+              obj_list = self.class.new(@client, @id_or_key).parse(response)
+            end
           end
 
           return obj_list

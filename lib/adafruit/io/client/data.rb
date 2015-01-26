@@ -1,17 +1,20 @@
 require 'adafruit/io/client/io_object'
+require 'adafruit/io/client/feed'
 
 module Adafruit
   module IO
     class Data < IOObject
-      def initialize(client = nil, id_or_key = nil)
+      def initialize(client = nil, feed = nil, id_or_key = nil)
         @client = client
+        @feed = feed
         @id_or_key = id_or_key
         @unsaved_values = Set.new
         @values = {}
+        @base_url = "feeds/#{@feed.id_or_key}"
       end
 
-      def create(options = {})       
-        response = @client.post 'data', options
+      def create(options = {})
+        response = @client.post "#{@base_url}/data", options
         return process_response(response)
       end
 
