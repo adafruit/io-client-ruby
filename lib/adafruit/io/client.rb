@@ -1,4 +1,3 @@
-require 'hashie'
 require 'faraday'
 require 'faraday_middleware'
 require 'faraday_middleware/response/mashify'
