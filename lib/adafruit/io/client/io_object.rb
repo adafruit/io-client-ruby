@@ -27,7 +27,6 @@ module Adafruit
 
         def process_response(response)
           response = JSON.parse(response, :symbolize_names => true)
-          puts response
 
           if response.is_a?(Array)
             obj_list = []
