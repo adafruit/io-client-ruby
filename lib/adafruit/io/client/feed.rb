@@ -5,13 +5,8 @@ module Adafruit
   module IO
 
     class Feed < IOObject
-      attr_accessor :unsaved_values, :id_or_key
-
       def initialize(client = nil, id_or_key = nil)
-        @client = client
-        @id_or_key = id_or_key
-        @unsaved_values = Set.new
-        @values = {}
+        super(client, id_or_key)
       end
 
       def create(options = {})       

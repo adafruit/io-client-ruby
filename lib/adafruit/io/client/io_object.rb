@@ -7,6 +7,14 @@ require 'active_support/core_ext/object/instance_variables'
 module Adafruit
   module IO
     class IOObject
+      attr_accessor :unsaved_values, :id_or_key
+
+      def initialize(client = nil, id_or_key = nil)
+        @client = client
+        @id_or_key = id_or_key
+        @unsaved_values = Set.new
+        @values = {}
+      end
 
       protected
         #serialize_params derived from stripe-ruby library, MIT License, Copyright (c) 2011- Stripe, Inc. (https://stripe.com)
