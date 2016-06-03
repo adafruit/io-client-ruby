@@ -1,3 +1,7 @@
+1.0.2
+----
+Remove unnecessary put statements
+
 1.0.1
 ----
 Fix host for connecting to io.
