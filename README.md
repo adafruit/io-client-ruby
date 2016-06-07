@@ -224,7 +224,7 @@ require 'adafruit/io'
 # create an instance
 aio = Adafruit::IO::Client.new :key => 'AIO_KEY_HERE'
 
-data = aio.feeds("Test").data.send_data({value: 5})
+data = aio.feeds("Test").data.send_data(5)
 puts data.inspect
 ```
 
