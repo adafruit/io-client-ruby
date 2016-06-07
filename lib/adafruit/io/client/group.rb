@@ -4,10 +4,7 @@ module Adafruit
   module IO
     class Group < IOObject
       def initialize(client = nil, id_or_key = nil)
-        @client = client
-        @id_or_key = id_or_key
-        @unsaved_values = Set.new
-        @values = {}
+        super(client, id_or_key)
       end
 
       def create(options = {})       
@@ -46,7 +43,9 @@ module Adafruit
       def send_group(group_name, data)
         if group_name
           group_name = URI::escape(group_name)
-          post "groups/#{group_name}/send", {:value => data}
+          response = @client.post "groups/#{group_name}/send", {:value => data}
+
+          return process_response(response)
         else
 
         end
@@ -55,7 +54,9 @@ module Adafruit
       def receive_group(group_name)
         if group_name
           group_name = URI::escape(group_name)
-          get "groups/#{group_name}/last"
+          response = @client.get "groups/#{group_name}/last"
+
+          return process_response(response)
         else
 
         end
@@ -64,7 +65,9 @@ module Adafruit
       def receive_next_group(group_name)
         if group_name
           group_name = URI::escape(group_name)
-          get "groups/#{group_name}/next"
+          response = @client.get "groups/#{group_name}/next"
+
+          return process_response(response)
         else
 
         end
@@ -72,14 +75,18 @@ module Adafruit
 
       def groups(feed_id_or_key, output_id=nil, options = {})
         if input_id
-          get "groups/#{feed_id_or_key}/#{input_id}", options
+          response = @client.get "groups/#{feed_id_or_key}/#{input_id}", options
         else
-          get "groups/#{feed_id_or_key}", options
+          response = @client.get "groups/#{feed_id_or_key}", options
         end
+
+        return process_response(response)
       end
 
       def create_group(feed_id_or_key, options = {})       
-        post "groups/#{feed_id_or_key}", options
+        response = @client.post "groups/#{feed_id_or_key}", options
+
+        return process_response(response)
       end
 
     end

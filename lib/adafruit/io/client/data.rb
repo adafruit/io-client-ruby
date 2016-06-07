@@ -5,11 +5,9 @@ module Adafruit
   module IO
     class Data < IOObject
       def initialize(client = nil, feed = nil, id_or_key = nil)
-        @client = client
+        super(client, id_or_key)
+
         @feed = feed
-        @id_or_key = id_or_key
-        @unsaved_values = Set.new
-        @values = {}
         @base_url = "feeds/#{@feed.id_or_key}"
       end
 

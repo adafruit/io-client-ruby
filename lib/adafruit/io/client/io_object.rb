@@ -7,6 +7,15 @@ require 'active_support/core_ext/object/instance_variables'
 module Adafruit
   module IO
     class IOObject
+      attr_accessor :unsaved_values, :id_or_key, :attr_list
+
+      def initialize(client = nil, id_or_key = nil)
+        @client = client
+        @id_or_key = id_or_key
+        @unsaved_values = Set.new
+        @values = {}
+        @attr_list = Set.new
+      end
 
       protected
         #serialize_params derived from stripe-ruby library, MIT License, Copyright (c) 2011- Stripe, Inc. (https://stripe.com)
@@ -52,6 +61,7 @@ module Adafruit
           o.each do |k, v|
             singleton_class.class_eval do; attr_accessor_with_changes "#{k}"; end
             send("#{k}=", v)
+            @attr_list << k
             @unsaved_values.delete(k.to_s)
           end
 
