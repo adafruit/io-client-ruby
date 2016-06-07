@@ -7,7 +7,7 @@ require 'active_support/core_ext/object/instance_variables'
 module Adafruit
   module IO
     class IOObject
-      attr_accessor :unsaved_values, :id_or_key
+      attr_accessor :unsaved_values, :id_or_key, :values
 
       def initialize(client = nil, id_or_key = nil)
         @client = client
