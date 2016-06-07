@@ -12,7 +12,7 @@ WebMock.disable_net_connect!(allow: 'io.adafruit.com')
 
 Dotenv.load
 
-MY_KEY    = ENV['ADAFRUIT_API_KEY'].freeze
+MY_KEY    = ENV['ADAFRUIT_IO_KEY'].freeze
 
 # NOTE: we should test with multiple feeds, but there's only 10 allowed
 #       and so limiting to one.
@@ -33,7 +33,7 @@ $aio = nil
 
 RSpec.describe 'initialization' do
   context 'starting with no feeds' do
-    it 'found an API key in the environment' do
+    it 'found an IO key in the environment' do
       expect(MY_KEY).to be_a String
     end
 
