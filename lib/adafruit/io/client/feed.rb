@@ -14,7 +14,7 @@ module Adafruit
         @values = {}
       end
 
-      def create(options = {})       
+      def create(options = {})
         response = @client.post 'feeds', options
         return process_response(response)
       end
@@ -48,7 +48,11 @@ module Adafruit
 
       def data(id_or_key = nil)
         Adafruit::IO::Data.new(@client, self, id_or_key)
-      end    
+      end
+
+      def to_s
+        %[#<Adafruit::IO::Feed id=#{self.id} name=#{self.name} key=#{self.key}>]
+      end
 
     end
 
