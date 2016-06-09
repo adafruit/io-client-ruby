@@ -23,7 +23,7 @@ module Adafruit
           @id_or_key = id_or_key
           response = @client.get "#{@base_url}/data/#{id_or_key}", options
         else
-          response = @client.get '#{@base_url}/data', options
+          response = @client.get "#{@base_url}/data", options
         end
 
         return process_response(response)
@@ -67,7 +67,7 @@ module Adafruit
       def previous(feed_name)
         response = @client.get "#{@base_url}/data/previous"
         return process_response(response)
-      end        
+      end
     end
   end
 end
