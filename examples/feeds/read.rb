@@ -1,12 +1,13 @@
 require 'adafruit/io'
 
 # create an instance
-aio = Adafruit::IO::Client.new :key => 'AIO_KEY_HERE'
+aio = Adafruit::IO::Client.new :key => ENV['ADAFRUIT_IO_KEY']
 
 #get all feeds
-puts aio.feeds.retrieve
+feeds = aio.feeds.retrieve
+puts feeds
 
 #get a single feed
-feed = aio.feeds.retrieve("Temperature")
+feed = aio.feeds.retrieve(feeds.last.key)
 puts feed.name
 puts feed.last_value
