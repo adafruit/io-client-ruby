@@ -43,13 +43,13 @@ module Adafruit
 
       def groups(id_or_key = nil)
         Adafruit::IO::Group.new(self, id_or_key)
-      end      
+      end
 
       def data(feed_id_or_key = nil, id_or_key = nil)
         Adafruit::IO::Data.new(self, feed_id_or_key, id_or_key)
-      end    
+      end
 
-  private 
+  private
 
       def conn
         #Faraday.new(:url => 'http://localhost:3002') do |c|
