@@ -1,3 +1,5 @@
+![Build Status](https://travis-ci.org/adafruit/io-client-ruby.svg?branch=master)
+
 # adafruit-io
 
 A [Ruby][1] client for use with with [io.adafruit.com][2].
