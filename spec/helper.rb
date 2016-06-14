@@ -13,6 +13,8 @@ WebMock.disable_net_connect!(allow: 'io.adafruit.com')
 Dotenv.load
 
 MY_KEY    = ENV['ADAFRUIT_IO_KEY'].freeze
+MY_KEY.nil? || MY_KEY.empty? and
+      ($stderr.puts("No Key Found - cannot continue.") ; exit(1))
 
 # NOTE: we should test with multiple feeds, but there's only 10 allowed
 #       and so limiting to one.
