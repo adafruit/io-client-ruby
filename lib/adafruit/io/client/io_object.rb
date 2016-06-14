@@ -17,8 +17,10 @@ module Adafruit
       end
 
       protected
-        #serialize_params derived from stripe-ruby library, MIT License, Copyright (c) 2011- Stripe, Inc. (https://stripe.com)
-        #https://github.com/stripe/stripe-ruby/blob/9cf5089dc15534b7ed581e0ce4d84fa82f592efb/lib/stripe/api_operations/update.rb#L37
+        # serialize_params derived from stripe-ruby library, MIT License,
+        # Copyright (c) 2011- Stripe, Inc. (https://stripe.com)
+        #
+        # https://github.com/stripe/stripe-ruby/blob/9cf5089dc15534b7ed581e0ce4d84fa82f592efb/lib/stripe/api_operations/update.rb#L37
         def serialize_params(obj)
           return '' if obj.nil?
 
@@ -68,10 +70,10 @@ module Adafruit
 
         def self.attr_accessor_with_changes(attr_name)
           attr_name = attr_name.to_s
-       
+
           #getter
           self.class_eval("def #{attr_name};@#{attr_name};end")
-       
+
           #setter
           self.class_eval %Q{
             def #{attr_name}=(val)
@@ -81,7 +83,7 @@ module Adafruit
               @#{attr_name} = val
             end
           }
-       
+
         end
     end
   end

@@ -43,19 +43,26 @@ module Adafruit
 
       def groups(id_or_key = nil)
         Adafruit::IO::Group.new(self, id_or_key)
-      end      
+      end
 
       def data(feed_id_or_key = nil, id_or_key = nil)
         Adafruit::IO::Data.new(self, feed_id_or_key, id_or_key)
-      end    
+      end
 
-  private 
+  private
 
       def conn
         #Faraday.new(:url => 'http://localhost:3002') do |c|
-        Faraday.new(:url => 'https://io.adafruit.com') do |c|
+        if ENV['ADAFRUIT_IO_URL']
+          url = ENV['ADAFRUIT_IO_URL']
+        else
+          url = 'https://io.adafruit.com'
+        end
+
+        Faraday.new(:url => url) do |c|
           c.headers['X-AIO-Key'] = @key
           c.headers['Accept'] = 'application/json'
+          c.headers['User-Agent'] = "AdafruitIO-Ruby/#{VERSION}"
           c.request :json
 
           c.response :xml,  :content_type => /\bxml$/

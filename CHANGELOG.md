@@ -1,3 +1,7 @@
+1.0.3
+----
+Update outgoing user agent
+
 1.0.2
 ----
 Remove unnecessary put statements

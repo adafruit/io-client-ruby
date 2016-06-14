@@ -1,7 +1,15 @@
 require 'adafruit/io'
 
 # create an instance
-aio = Adafruit::IO::Client.new :key => 'AIO_KEY_HERE'
+aio = Adafruit::IO::Client.new :key => ENV['ADAFRUIT_IO_KEY']
 
-data = aio.feeds(187).data.retrieve(288718)
-puts data.inspect
+feed = aio.feeds.retrieve.first
+data = aio.feeds(feed.key).data.retrieve.first
+
+puts %[\
+FEED  %s
+FIRST DATA
+  ID         %s
+  CREATED AT %s
+  VALUE      %s
+] % [feed.name, data.value, data.created_at, data.feed_id]
