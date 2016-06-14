@@ -11,6 +11,7 @@ group :test do
   gem 'test-queue', '~> 0.1.3'
   gem 'vcr', '~> 2.4.0'
   gem 'webmock', '~> 1.9.0'
+  gem 'dotenv', '~> 2.1.1'
 end
 
 platforms :rbx do
