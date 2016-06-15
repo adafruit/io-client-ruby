@@ -23,11 +23,8 @@ require 'adafruit/io'
 # include all support files
 Dir["./spec/support/**/*.rb"].each {|f| require f}
 
+# isolate "normal" test suite from making calls to io.adafruit.com
 WebMock.disable_net_connect!(allow_localhost: true)
-
-MY_KEY    = ENV['ADAFRUIT_IO_KEY'].freeze
-MY_KEY.nil? || MY_KEY.empty? and
-      ($stderr.puts("No Key Found - cannot continue.") ; exit(1))
 
 def fixture_path
   File.expand_path("../fixtures", __FILE__)
@@ -45,9 +42,8 @@ def fixture_json(file)
   $_fixture_json_files[file].dup
 end
 
-# NOTE: we should test with multiple feeds, but there's only 10 allowed
-#       and so limiting to one.
-#       ##TODO investigate making/getting a test account of some kind
+MY_KEY = 'blah'.freeze
+
 FEED_NAME1 = 'test_feed_1'.freeze
 FEED_DESC = 'My Test Feed Description'.freeze
 
@@ -70,7 +66,7 @@ RSpec.describe 'initialization' do
 
     it 'can create a client using that key' do
       # use test-only key
-      $aio = Adafruit::IO::Client.new key: 'blah'
+      $aio = Adafruit::IO::Client.new key: MY_KEY
       expect($aio).to_not be_nil
     end
   end
