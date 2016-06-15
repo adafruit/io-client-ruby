@@ -1,20 +1,49 @@
+$LOAD_PATH.unshift(File.dirname(__FILE__))
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'json'
 require 'rspec'
-require 'dotenv'
 require 'webmock/rspec'
 
-require 'simplecov'
-SimpleCov.start
+begin
+  require 'simplecov'
+  SimpleCov.start
+rescue LoadError
+  warn 'warning: simplecov not found, skipping coverage'
+end
+
+begin
+  require 'dotenv'
+  Dotenv.load
+rescue LoadError
+  warn 'warning: dotenv not found, please make sure env contains proper variables'
+end
 
 require 'adafruit/io'
 
-WebMock.disable_net_connect!(allow: 'io.adafruit.com')
+# include all support files
+Dir["./spec/support/**/*.rb"].each {|f| require f}
 
-Dotenv.load
+WebMock.disable_net_connect!(allow_localhost: true)
 
 MY_KEY    = ENV['ADAFRUIT_IO_KEY'].freeze
 MY_KEY.nil? || MY_KEY.empty? and
       ($stderr.puts("No Key Found - cannot continue.") ; exit(1))
+
+def fixture_path
+  File.expand_path("../fixtures", __FILE__)
+end
+
+def fixture(file)
+  File.new(fixture_path + '/' + file)
+end
+
+$_fixture_json_files = {}
+def fixture_json(file)
+  if $_fixture_json_files[file].nil?
+    $_fixture_json_files[file] = fixture(file + '.json').read
+  end
+  $_fixture_json_files[file].dup
+end
 
 # NOTE: we should test with multiple feeds, but there's only 10 allowed
 #       and so limiting to one.
@@ -40,7 +69,8 @@ RSpec.describe 'initialization' do
     end
 
     it 'can create a client using that key' do
-      $aio = Adafruit::IO::Client.new key: MY_KEY
+      # use test-only key
+      $aio = Adafruit::IO::Client.new key: 'blah'
       expect($aio).to_not be_nil
     end
   end

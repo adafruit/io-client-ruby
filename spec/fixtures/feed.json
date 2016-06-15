@@ -1,0 +1,16 @@
+{
+  "name": "Test Feed",
+  "key": "test_feed",
+  "id": 1,
+  "description": null,
+  "unit_symbol": null,
+  "unit_type": null,
+  "last_value": null,
+  "visibility": null,
+  "status": null,
+  "enabled": null,
+  "created_at": null,
+  "updated_at": null,
+  "history": null,
+  "license": null
+}
