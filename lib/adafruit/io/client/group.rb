@@ -4,10 +4,7 @@ module Adafruit
   module IO
     class Group < IOObject
       def initialize(client = nil, id_or_key = nil)
-        @client = client
-        @id_or_key = id_or_key
-        @unsaved_values = Set.new
-        @values = {}
+        super(client, id_or_key)
       end
 
       def create(options = {})       
