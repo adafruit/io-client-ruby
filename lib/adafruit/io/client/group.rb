@@ -77,6 +77,11 @@ module Adafruit
 
         return process_response(response)
       end
+
+      # Deprecated: this method was not present in the io.adafruit.com API.
+      # This method will be removed in v2.0.0
+      def groups(*args)
+      end
     end
   end
 end
