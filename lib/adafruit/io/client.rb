@@ -75,10 +75,8 @@ module Adafruit
       end
 
       def request(method, url, data = nil, options = nil)
-        @last_response = response = send(method, url, data)
+        @last_response = send(method, url, data)
       end
-
-
     end
   end
 end
