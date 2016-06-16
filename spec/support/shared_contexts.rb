@@ -7,8 +7,7 @@ shared_context "AdafruitIOv1" do
 
     headers = {
       'Accept'=>'application/json',
-      'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-      'User-Agent'=>"AdafruitIO-Ruby/#{ Adafruit::IO::VERSION }",
+      'User-Agent'=> %r[AdafruitIO-Ruby/#{ Adafruit::IO::VERSION } \(.+\)],
       'X-Aio-Key'=>'blah'
     }
 

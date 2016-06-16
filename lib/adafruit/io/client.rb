@@ -62,7 +62,7 @@ module Adafruit
         Faraday.new(:url => url) do |c|
           c.headers['X-AIO-Key'] = @key
           c.headers['Accept'] = 'application/json'
-          c.headers['User-Agent'] = "AdafruitIO-Ruby/#{VERSION}"
+          c.headers['User-Agent'] = "AdafruitIO-Ruby/#{VERSION} (#{RUBY_PLATFORM})"
           c.request :json
 
           c.response :xml,  :content_type => /\bxml$/
