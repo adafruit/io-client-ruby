@@ -8,7 +8,7 @@ module Adafruit
         super(client, id_or_key)
 
         @feed = feed
-        @base_url = "feeds/#{@feed.id_or_key}"
+        @base_url = "feeds/#{@feed.id}"
       end
 
       def create(options = {})
@@ -62,7 +62,7 @@ module Adafruit
         return process_response(response)
       end
 
-      def previous(feed_name)
+      def previous
         response = @client.get "#{@base_url}/data/previous"
         return process_response(response)
       end
