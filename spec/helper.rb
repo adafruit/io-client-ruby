@@ -29,6 +29,7 @@ if MY_KEY
   WebMock.disable_net_connect!(allow: 'io.adafruit.com')
 else
   WebMock.disable_net_connect!(allow_localhost: true)
+  MY_KEY = 'blah'.freeze
 end
 
 def fixture_path
