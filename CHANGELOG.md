@@ -1,3 +1,9 @@
+1.1.0
+----
+- updated test suite
+- consolidated shared functionality into IOObject (thanks @rkam)
+- deprecate Group#groups
+
 1.0.3
 ----
 Update outgoing user agent
