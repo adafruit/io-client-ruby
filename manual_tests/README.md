@@ -10,7 +10,7 @@ environment variable called ADAFRUIT_IO_KEY.
 
 So, the base tests can be run via the following command:
 
-    ADAFRUIT_IO_KEY=my_key rake test iolib
+    ADAFRUIT_IO_KEY=my_key rake iolib
 
 Alternatively, you can place the key into a file in the top level directory
 called _.env_.  The format is the same as above, but as a single line and
@@ -29,6 +29,11 @@ is tested and covered.)
 There is another test that can be run, which uses HTTP to access the server,
 instead of the _io-client-ruby_ library.  This test can be run, for instance,
 determine if a failure lies within the ruby library itself.
+
+The HTTP tests can be run via the following rake command (assuming the key
+is already specified somehow):
+
+    rake http
 
 Both tests run the exact same tests and verification and share much code - it
 is only the mechanism of hitting the server that differs, so the HTTP-based
