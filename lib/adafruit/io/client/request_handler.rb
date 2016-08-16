@@ -4,10 +4,12 @@ module Adafruit
   module IO
     class Client
       module RequestHandler
-        def handle_get(url, data = nil, options = {})
+        def handle_get(url, options = {})
           response = conn.get do |req|
             req.url URI::encode("api/#{url}")
-            #req.params['limit'] = 100
+            options.each do |k,v|
+              req.params[k] = v
+            end
           end
           return response.body
         end
@@ -33,7 +35,7 @@ module Adafruit
             req.url URI::encode("api/#{url}")
           end
           return response.status
-        end 
+        end
       end
     end
   end
