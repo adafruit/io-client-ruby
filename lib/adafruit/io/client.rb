@@ -18,7 +18,7 @@ module Adafruit
       end
 
       def get(url, options = {})
-        request :handle_get, url
+        request :handle_get, url, options
       end
 
       def post(url, data, options = {})
