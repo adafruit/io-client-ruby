@@ -1,0 +1,47 @@
+[
+   {
+    "id": 1,
+    "value": "80",
+    "position": null,
+    "feed_id": 1,
+    "group_id": null,
+    "expiration": null,
+    "lat": 0,
+    "lon": 0,
+    "ele": 0,
+    "completed_at": null,
+    "created_at": "2016-08-15T20:29:00Z",
+    "updated_at": "2016-08-15T20:29:00Z",
+    "created_epoch": 1471292956.85221
+  },
+  {
+    "id": 2,
+    "value": "81",
+    "position": null,
+    "feed_id": 1,
+    "group_id": null,
+    "expiration": null,
+    "lat": 0,
+    "lon": 0,
+    "ele": 0,
+    "completed_at": null,
+    "created_at": "2016-08-15T20:30:00Z",
+    "updated_at": "2016-08-15T20:30:00Z",
+    "created_epoch": 1471292956.85221
+  },
+  {
+    "id": 3,
+    "value": "82",
+    "position": null,
+    "feed_id": 1,
+    "group_id": null,
+    "expiration": null,
+    "lat": 0,
+    "lon": 0,
+    "ele": 0,
+    "completed_at": null,
+    "created_at": "2016-08-15T20:31:00Z",
+    "updated_at": "2016-08-15T20:31:00Z",
+    "created_epoch": 1471292956.85221
+  }
+]

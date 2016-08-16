@@ -9,6 +9,7 @@ shared_context "AdafruitIOv1" do
 
     headers = {
       'Accept'=>'application/json',
+      'Accept-Encoding'=>/.*/,
       'User-Agent'=> %r[AdafruitIO-Ruby/#{ Adafruit::IO::VERSION } \(.+\)],
       'X-Aio-Key'=>'blah'
     }
@@ -27,6 +28,10 @@ shared_context "AdafruitIOv1" do
 
   def mock_feed_json
     fixture_json('feed')
+  end
+
+  def mock_data_json
+    fixture_json('data')
   end
 
   def mock_feed_record
