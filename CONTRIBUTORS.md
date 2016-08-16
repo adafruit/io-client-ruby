@@ -6,5 +6,6 @@ taken from the [github graph](https://github.com/adafruit/io-client-ruby/graphs/
 * [Adam Bachman](https://github.com/abachman)
 * [Justin Cooper](https://github.com/jwcooper)
 * [Nikita Avvakumov](https://github.com/NikitaAvvakumov)
+* [Petr Havelka](https://github.com/CiTroNaK)
 * [Ric Kamicar](https://github.com/rkam)
 * [Todd Treece](https://github.com/toddtreece)
