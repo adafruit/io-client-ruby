@@ -1,9 +1,11 @@
 
+TEST_URL = ENV['ADAFRUIT_IO_URL'] || 'https://io.adafruit.com'
+
 shared_context "AdafruitIOv1" do
   before { @api_version = 'v1'}
 
   def mock_response(options={})
-    request = stub_request(options[:method], "https://io.adafruit.com/#{ options[:path] }")
+    request = stub_request(options[:method], URI::join(TEST_URL, "/#{ options[:path] }"))
 
     headers = {
       'Accept'=>'application/json',

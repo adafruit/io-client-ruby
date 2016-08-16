@@ -9,7 +9,7 @@ describe Adafruit::IO::Client do
     end
 
     it "sends the proper user agent" do
-      stub_request(:get, "https://io.adafruit.com/api/test").
+      stub_request(:get, URI::join(TEST_URL, "/api/test")).
         with(headers: {
           'User-Agent'=>"AdafruitIO-Ruby/#{ Adafruit::IO::VERSION } (#{ RUBY_PLATFORM })"
         }).
