@@ -1,4 +1,5 @@
-## The heart of Adafruit IO and priority for the API Library
+# Feeds are where data is stored. Feeds can belong to one or more groups, all
+# feeds are in the default group unless otherwise specified.
 
 require 'adafruit/io'
 require 'securerandom'

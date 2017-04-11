@@ -11,8 +11,8 @@ def section(label)
   puts
 end
 
-api_key = '7a88d8e0abd24f45b7993d9f423b8873'
-username = 'test_username'
+api_key = ENV['AIO_KEY']
+username = ENV['AIO_USER']
 
 # to show all HTTP request activity from Faraday, add `debug: true`
 api = Adafruit::IO::Client.new key: api_key, username: username
