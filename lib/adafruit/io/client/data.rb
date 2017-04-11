@@ -1,70 +1,122 @@
-require 'adafruit/io/client/io_object'
-require 'adafruit/io/client/feed'
-
 module Adafruit
   module IO
-    class Data < IOObject
-      def initialize(client = nil, feed = nil, id_or_key = nil)
-        super(client, id_or_key)
+    class Client
+      module Data
 
-        @feed = feed
-        @base_url = "feeds/#{@feed.id}"
-      end
+        # Add data to a feed.
+        #
+        # Params:
+        #   - feed_key: string
+        #   - value: string or number
+        #   - location (optional): {lat: Number, lon: Number, ele: Number}
+        #   - created_at (optional): iso8601 date time string.
+        #
+        def send_data(*args)
+          username, arguments = extract_username(args)
+          feed_key = get_key_from_arguments(arguments)
+          value = arguments.shift
 
-      def create(options = {})
-        response = @client.post "#{@base_url}/data", options
-        return process_response(response)
-      end
+          attrs = {
+            value: value
+          }
 
-      def retrieve(id_or_key = nil, options = {})
-        if id_or_key
-          @id_or_key = id_or_key
-          response = @client.get "#{@base_url}/data/#{id_or_key}", options
-        else
-          response = @client.get "#{@base_url}/data", options
+          if arguments.size > 0 && arguments.first.is_a?(Hash)
+            location = arguments.shift
+            if location[:lat] && location[:lon]
+              attrs[:lat] = location[:lat]
+              attrs[:lon] = location[:lon]
+              attrs[:ele] = location[:ele]
+            end
+          end
+
+          if arguments.size > 0
+            if arguments.first.is_a?(String)
+              created_at = arguments.shift
+              attrs[:created_at] = created_at
+            elsif arguments.first.is_a?(Time)
+              created_at = arguments.shift
+              attrs[:created_at] = created_at.utc.iso8601
+            end
+          end
+
+          post api_url(username, 'feeds', feed_key, 'data'), attrs
         end
 
-        return process_response(response)
-      end
+        # Send a batch of data points.
+        #
+        # Points can either be a list of strings, numbers, or hashes with the
+        # keys [ value, created_at OPTIONAL, lat OPTIONAL, lon OPTIONAL, ele OPTIONAL ]
+        #
+        def send_batch_data(*args)
+          username, arguments = extract_username(args)
+          feed_key = get_key_from_arguments(arguments)
+          values = arguments.shift
 
-      def delete
-        response = @client.delete "#{@base_url}/data/#{self.id}"
-        if response == 200
-          {"delete" => true, "id" => self.id}
-        else
-          {"delete" => false, "id" => self.id}
+          if values.nil? || !values.is_a?(Array)
+            raise "expected batch values to be an array"
+          end
+
+          if !values.first.is_a?(Hash)
+            # convert values to hashes with single key: 'value'
+            values = values.map {|val| {value: val}}
+          end
+
+          post api_url(username, 'feeds', feed_key, 'data', 'batch'), data: values
         end
-      end
 
-      def save
-        response = @client.put "#{@base_url}/data/#{self.id}", serialize_params(self)
-        @unsaved_values.clear
+        # Get all data for a feed, may paginate.
+        def data(*args)
+          username, arguments = extract_username(args)
+          feed_key = get_key_from_arguments(arguments)
+          query = get_query_from_arguments arguments, %w(start_time end_time limit)
 
-        return process_response(response)
-      end
+          get api_url(username, 'feeds', feed_key, 'data'), query
+        end
 
-      def send_data(data)
-        response = @client.post "#{@base_url}/data/send", {:value => data}
-        return process_response(response)
-      end
+        # Get charting data for a feed.
+        def data_chart(*args)
+          username, arguments = extract_username(args)
+          feed_key = get_key_from_arguments(arguments)
+          query = get_query_from_arguments arguments, %w(start_time end_time limit hours resolution)
 
-      def receive
-        response = @client.get "#{@base_url}/data/last"
-        return process_response(response)
-      end
+          get api_url(username, 'feeds', feed_key, 'data', 'chart'), query
+        end
 
-      def last
-        receive
-      end
+        # Get a single data point.
+        def datum(*args)
+          username, arguments = extract_username(args)
+          feed_key = get_key_from_arguments(arguments)
+          data_id = arguments.shift
 
-      def next
-        response = @client.get "#{@base_url}/data/next"
-        return process_response(response)
-      end
+          get api_url(username, 'feeds', feed_key, 'data', data_id)
+        end
 
-      def previous
-        response = @client.get "#{@base_url}/data/previous"
-        return process_response(response)
+        # Retrieve the next unprocessed data point.
+        def next_data(*args)
+          username, arguments = extract_username(args)
+          feed_key = get_key_from_arguments(arguments)
+
+          get api_url(username, 'feeds', feed_key, 'data', 'next')
+        end
+
+        # Retrieve the previously processed data point. This method does not
+        # move the stream pointer.
+        def prev_data(*args)
+          username, arguments = extract_username(args)
+          feed_key = get_key_from_arguments(arguments)
+
+          get api_url(username, 'feeds', feed_key, 'data', 'prev')
+        end
+
+        # Move the stream processing pointer to and retrieve the last (newest)
+        # data point available.
+        def last_data(*args)
+          username, arguments = extract_username(args)
+          feed_key = get_key_from_arguments(arguments)
+
+          get api_url(username, 'feeds', feed_key, 'data', 'last')
+        end
+
       end
     end
   end

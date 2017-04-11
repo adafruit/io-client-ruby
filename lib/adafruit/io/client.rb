@@ -1,60 +1,53 @@
+require 'json'
+require 'uri'
+
 require 'faraday'
 require 'faraday_middleware'
 require 'faraday_middleware/response/mashify'
-require 'json'
-require 'adafruit/io/client/feed'
-require 'adafruit/io/client/group'
+
+require 'adafruit/io/configurable'
+require 'adafruit/io/request_handler'
+
+require 'adafruit/io/client/feeds'
 require 'adafruit/io/client/data'
-require 'adafruit/io/client/request_handler'
+
+# require 'adafruit/io/client/group'
 
 module Adafruit
   module IO
     class Client
 
-      include Adafruit::IO::Client::RequestHandler
+      include Adafruit::IO::Configurable
+      include Adafruit::IO::RequestHandler
 
       def initialize(options)
         @key = options[:key]
+        @username = options[:username]
+
+        @debug = !!options[:debug]
       end
 
-      def get(url, options = {})
-        request :handle_get, url, options
-      end
-
-      def post(url, data, options = {})
-        request :handle_post, url, data, options
-      end
-
-      def put(url, data, options = {})
-        request :handle_put, url, data, options
-      end
-
-      def delete(url, options = {})
-        request :handle_delete, url
+      # Text representation of the client, masking key
+      #
+      # @return [String]
+      def inspect
+        inspected = super
+        inspected = inspected.gsub! @key, "#{@key[0..3]}#{'*' * (@key.size - 3)}" if @key
+        inspected
       end
 
       def last_response
         @last_response
       end
 
-      def feeds(id_or_key = nil)
-        Adafruit::IO::Feed.new(self, id_or_key)
-      end
+      include Adafruit::IO::Client::Feeds
+      include Adafruit::IO::Client::Data
 
-      def groups(id_or_key = nil)
-        Adafruit::IO::Group.new(self, id_or_key)
-      end
-
-      def data(feed_id_or_key = nil, id_or_key = nil)
-        Adafruit::IO::Data.new(self, feed_id_or_key, id_or_key)
-      end
-
-  private
+      private
 
       def conn
-        #Faraday.new(:url => 'http://localhost:3002') do |c|
-        if ENV['ADAFRUIT_IO_URL']
-          url = ENV['ADAFRUIT_IO_URL']
+        if api_endpoint
+          url = api_endpoint
         else
           url = 'https://io.adafruit.com'
         end
@@ -65,17 +58,63 @@ module Adafruit
           c.headers['User-Agent'] = "AdafruitIO-Ruby/#{VERSION} (#{RUBY_PLATFORM})"
           c.request :json
 
-          c.response :xml,  :content_type => /\bxml$/
-          #c.response :mashify, :content_type => /\bjson$/
-          #c.response :json
+          # if @debug is true, Faraday will get really noisy when making requests
+          if @debug
+            c.response :logger
+          end
 
           c.use :instrumentation
           c.adapter Faraday.default_adapter
         end
       end
 
-      def request(method, url, data = nil, options = nil)
-        @last_response = send(method, url, data)
+      # Allows us to give a username during client initialization or with a specific method.
+      def extract_username(args)
+        username = @username
+
+        if args.last.is_a?(Hash) && args.last.has_key?(:username)
+          username = args.last.delete(:username)
+        end
+
+        if username.nil?
+          raise "cannot make request when username is nil"
+        end
+
+        [ username, args ]
+      end
+
+      def get_key_from_arguments(arguments)
+        record_or_key = arguments.shift
+        return nil if record_or_key.nil?
+
+        if record_or_key.is_a?(String)
+          record_or_key
+        elsif record_or_key.is_a?(Hash) && record_or_key.has_key?('key')
+          record_or_key['key']
+        elsif record_or_key.is_a?(Hash) && record_or_key.has_key?(:key)
+          record_or_key[:key]
+        elsif record_or_key.respond_to?(:key)
+          record_or_key.key
+        else
+          raise 'unrecognized object or key value in arguments'
+        end
+      end
+
+      def get_query_from_arguments(arguments, params)
+        query = {}
+        options = arguments.shift
+        return query if options.nil?
+
+        params.each do |param|
+          query[param] = options[param.to_sym] if options.has_key?(param.to_sym)
+        end
+        query
+      end
+
+      def api_url(username, *args)
+        to_join = ['api', 'v2', username].concat(args)
+
+        File.join(*to_join)
       end
     end
   end
