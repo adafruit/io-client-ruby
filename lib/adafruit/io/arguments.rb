@@ -31,14 +31,28 @@ module Adafruit
 
         if record_or_key.is_a?(String)
           record_or_key
-        elsif record_or_key.is_a?(Hash) && record_or_key.has_key?('key')
-          record_or_key['key']
-        elsif record_or_key.is_a?(Hash) && record_or_key.has_key?(:key)
-          record_or_key[:key]
+        elsif record_or_key.is_a?(Hash) && (record_or_key.has_key?('key') || record_or_key.has_key?(:key))
+          record_or_key['key'] || record_or_key[:key]
         elsif record_or_key.respond_to?(:key)
           record_or_key.key
         else
           raise 'unrecognized object or key value in arguments'
+        end
+      end
+
+      # Same as get_key_from_arguments but looking for id
+      def get_id_from_arguments(arguments)
+        record_or_id = arguments.shift
+        return nil if record_or_id.nil?
+
+        if record_or_id.is_a?(String)
+          record_or_id
+        elsif record_or_id.is_a?(Hash) && (record_or_id.has_key?('id') || record_or_id.has_key?(:id))
+          record_or_id['id'] || record_or_id[:id]
+        elsif record_or_id.respond_to?(:id)
+          record_or_id.id
+        else
+          raise 'unrecognized object or id value in arguments'
         end
       end
 
