@@ -44,7 +44,7 @@ end
 
 MY_KEY = 'blah'.freeze
 
-FEED_NAME1 = 'test_feed_1'.freeze
+FEED_KEY1 = 'test_feed_1'.freeze
 FEED_DESC = 'My Test Feed Description'.freeze
 
 DATA_NAME1 = 'test_data_1'.freeze
@@ -56,9 +56,12 @@ GROUP_NAME2 = 'test_group_2'.freeze
 DASHBOARD_NAME1 = 'test_dashboard_1'.freeze
 DASHBOARD_NAME2 = 'test_dashboard_2'.freeze
 
-$aio = nil
-
 RSpec.describe 'initialization' do
+  before do
+    @aio = Adafruit::IO::Client.new key: MY_KEY, username: 'test_username'
+    @aio.api_endpoint = TEST_URL
+  end
+
   context 'starting with no feeds' do
     it 'found an IO key in the environment' do
       expect(MY_KEY).to be_a String
@@ -66,8 +69,7 @@ RSpec.describe 'initialization' do
 
     it 'can create a client using that key' do
       # use test-only key
-      $aio = Adafruit::IO::Client.new key: MY_KEY
-      expect($aio).to_not be_nil
+      expect(@aio).to_not be_nil
     end
   end
 end
