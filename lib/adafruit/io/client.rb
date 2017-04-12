@@ -11,8 +11,7 @@ require 'adafruit/io/request_handler'
 
 require 'adafruit/io/client/feeds'
 require 'adafruit/io/client/data'
-
-# require 'adafruit/io/client/group'
+require 'adafruit/io/client/groups'
 
 module Adafruit
   module IO
@@ -44,6 +43,7 @@ module Adafruit
 
       include Adafruit::IO::Client::Feeds
       include Adafruit::IO::Client::Data
+      include Adafruit::IO::Client::Groups
 
       private
 

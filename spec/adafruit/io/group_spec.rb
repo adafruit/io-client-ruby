@@ -1,14 +1,5 @@
 require 'helper'
 
-# List of current properties associated with a feed.
-FEED_PROPS_v2_0_0 = %w(
-     created_at   description     group            groups        history
-     id           key             last_value       license       name
-     owner        status_notify   status_timeout   unit_symbol
-     unit_type    updated_at      username
-     visibility
-)
-
 RSpec.describe Adafruit::IO::Client do
   include_context "AdafruitIOv2"
 
@@ -81,17 +72,17 @@ RSpec.describe Adafruit::IO::Client do
         )
       end
 
-      it 'returns that feed when given string key' do
+      it 'returns that feed with string key' do
         feed = @aio.feed(mock_feed_record['key'])
         expect(feed['name']).to eq mock_feed_record['name']
       end
 
-      it 'returns that feed when given string-key hash' do
+      it 'returns that feed with string-key hash' do
         feed = @aio.feed({'key' => mock_feed_record['key']})
         expect(feed['name']).to eq mock_feed_record['name']
       end
 
-      it 'returns that feed when given symbol-key hash' do
+      it 'returns that feed with symbol-key hash' do
         feed = @aio.feed(key: mock_feed_record['key'])
         expect(feed['name']).to eq mock_feed_record['name']
       end
@@ -121,33 +112,6 @@ RSpec.describe Adafruit::IO::Client do
           expect(feed['description']).to eq FEED_DESC
         end
       end
-    end
-
-    context '#delete' do
-
-      it 'returns deleted feed' do
-        mock_response(
-          path: api_path('feeds', mock_feed_record['key']),
-          method: :delete,
-          status: 200,
-          body: fixture_json('feed')
-        )
-
-        result = @aio.delete_feed(mock_feed_record['key'])
-        expect(result['id']).to eq mock_feed_record['id']
-      end
-
-      it "raises not found when feed doesn't exist" do
-        mock_response(
-          path: api_path('feeds', mock_feed_record['key']),
-          method: :delete,
-          status: 404,
-          body: fixture_json('not_found_error'),
-        )
-
-        expect(@aio.delete_feed(mock_feed_record['key'])).to be_nil
-      end
-
     end
   end
 end

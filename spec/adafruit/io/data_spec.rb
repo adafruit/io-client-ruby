@@ -9,7 +9,7 @@ RSpec.describe Adafruit::IO::Client do
   end
 
   context 'with a feed having data' do
-    context '#retrieve' do
+    context 'data' do
       it 'returns feed data' do
         # get Data
         mock_response(
