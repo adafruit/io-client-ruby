@@ -112,7 +112,11 @@ module Adafruit
         end
 
         if response.status < 200 || response.status > 299
-          raise "DELETE error: #{ response.body }"
+          if response.status === 404
+            nil
+          else
+            raise "DELETE error: #{ response.body }"
+          end
         else
           parsed_response response
         end
