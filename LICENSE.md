@@ -1,5 +1,5 @@
 Copyright (c) 2014 Adafruit
-Author: Justin Cooper
+Author: Justin Cooper, Adam Bachman
 
 MIT License
 

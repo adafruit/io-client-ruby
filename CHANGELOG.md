@@ -1,3 +1,7 @@
+2.0.0.beta.1
+----
+- Feeds, Data, and Groups
+
 1.1.0
 ----
 - updated test suite

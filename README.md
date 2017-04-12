@@ -4,13 +4,35 @@
 
 A [Ruby][1] client for use with with [io.adafruit.com][2].
 
-Note, this documentation covers V2 of the API, which is currently under active development and may be missing some features.
+Note, this documentation covers the gem supporting V2 of the API, which is currently under active development and may be missing some features. It also breaks support for code that used version <= 1.0.4 of this library.
 
 Older releases are available at these links:
 
 * [1.0.4](https://github.com/adafruit/io-client-ruby/tree/v1.0.4)
 * [1.0.3](https://github.com/adafruit/io-client-ruby/tree/v1.0.3)
 * [1.0.0](https://github.com/adafruit/io-client-ruby/tree/v1.0.0)
+
+This is a near complete rewrite and strip-down of the library intended to support V2 of the Adafruit IO API with less code, maintenance, and stress.
+
+Why rewrite? This lets us the replace the existing, custom ActiveRecord-based interface with a flat, stateless API client returning plain hashes based on the JSON returned from API.Instead of writing a bunch of Ruby to make it feel like we're in a Rails app, we're just providing hooks into the API and a thin wrapper around Faraday.
+
+The API is not very complex, code that uses it shouldn't be either.
+
+## Roadmap
+
+It is our goal to eventually support all API V2 methods, but that will happen in stages.
+
+- [x] Feeds `2.0.0.beta.1`
+- [x] Data `2.0.0.beta.1`
+- [x] Groups `2.0.0.beta.1`
+- Activities
+- Blocks
+- Dashboards
+- MQTT
+- Permissions
+- Sessions
+- Tokens
+- Triggers
 
 ## Installation
 
@@ -101,6 +123,13 @@ puts api.feed(garbage['key']).inspect
 * [Tokens](#tokens)
 
 ### Feeds
+
+Create
+
+
+
+
+
 ### Data
 ### Groups
 ### Dashboards
