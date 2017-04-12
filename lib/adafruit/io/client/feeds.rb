@@ -42,6 +42,18 @@ module Adafruit
           delete api_url(username, 'feeds', feed_key)
         end
 
+        def update_feed(*args)
+          username, arguments = extract_username(args)
+          feed_key = get_key_from_arguments(arguments)
+          query = get_query_from_arguments(
+            arguments,
+            %w(name key description unit_type unit_symbol history visibility
+               license status_notify status_timeout)
+          )
+
+          put api_url(username, 'feeds', feed_key), query
+        end
+
       end
     end
   end
