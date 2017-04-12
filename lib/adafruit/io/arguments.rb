@@ -1,0 +1,59 @@
+module Adafruit
+  module IO
+    module Arguments
+
+      # Allows us to give a username during client initialization or with a specific method.
+      def extract_username(args)
+        username = @username
+
+        if args.last.is_a?(Hash) && args.last.has_key?(:username)
+          username = args.last.delete(:username)
+        end
+
+        if username.nil?
+          raise "cannot make request when username is nil"
+        end
+
+        [ username, args ]
+      end
+
+      # Allow users to pass a hash with key named 'key' or :key, or just a
+      # plain string to use as a key.
+      #
+      #   client.feed({ key: 'myfeed' })
+      #   client.feed({ 'key' => 'myfeed' })
+      #   client.feed('myfeed')
+      #
+      # Are all equivalent.
+      def get_key_from_arguments(arguments)
+        record_or_key = arguments.shift
+        return nil if record_or_key.nil?
+
+        if record_or_key.is_a?(String)
+          record_or_key
+        elsif record_or_key.is_a?(Hash) && record_or_key.has_key?('key')
+          record_or_key['key']
+        elsif record_or_key.is_a?(Hash) && record_or_key.has_key?(:key)
+          record_or_key[:key]
+        elsif record_or_key.respond_to?(:key)
+          record_or_key.key
+        else
+          raise 'unrecognized object or key value in arguments'
+        end
+      end
+
+      # Get a filtered list of parameters from the next argument
+      def get_query_from_arguments(arguments, params)
+        query = {}
+        options = arguments.shift
+        return query if options.nil?
+
+        params.each do |param|
+          query[param] = options[param.to_sym] if options.has_key?(param.to_sym)
+        end
+        query
+      end
+
+    end
+  end
+end
