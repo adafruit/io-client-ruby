@@ -1,5 +1,4 @@
 require 'json'
-require 'uri'
 
 require 'faraday'
 require 'faraday_middleware'
@@ -71,10 +70,30 @@ module Adafruit
       end
 
       def api_url(username, *args)
-        to_join = ['api', 'v2', username].concat(args)
-
-        File.join(*to_join)
+        safe_path_join *['api', 'v2', username].concat(args)
       end
+
+      # safely build URL paths from segments
+      def safe_path_join(*paths)
+        paths = paths.compact.reject(&:empty?)
+        last = paths.length - 1
+        paths.each_with_index.map { |path, index|
+          safe_path_expand(path, index, last)
+        }.join
+      end
+
+      def safe_path_expand(path, current, last)
+        if path[0] === '/' && current != 0
+          path = path[1..-1]
+        end
+
+        unless path[-1] === '/' || current == last
+          path = [path, '/']
+        end
+
+        path
+      end
+
     end
   end
 end
