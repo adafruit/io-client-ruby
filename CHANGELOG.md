@@ -1,6 +1,7 @@
 2.0.0.beta.1
 ----
 - Feeds, Data, and Groups
+- MQTT Client
 
 1.1.0
 ----

@@ -25,14 +25,14 @@ It is our goal to eventually support all API V2 methods, but that will happen in
 - [x] Feeds `2.0.0.beta.1`
 - [x] Data `2.0.0.beta.1`
 - [x] Groups `2.0.0.beta.1`
-- Activities
-- Blocks
-- Dashboards
-- MQTT
-- Permissions
-- Sessions
-- Tokens
-- Triggers
+- [x] MQTT `2.0.0.beta.3`
+- [] Activities
+- [] Blocks
+- [] Dashboards
+- [] Permissions
+- [] Sessions
+- [] Tokens
+- [] Triggers
 
 ## Installation
 
