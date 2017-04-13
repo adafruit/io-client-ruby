@@ -79,7 +79,7 @@ module Adafruit
 
       # safely build URL paths from segments
       def safe_path_join(*paths)
-        paths = paths.compact.reject(&:empty?)
+        paths = paths.compact.map(&:to_s).reject(&:empty?)
         last = paths.length - 1
         paths.each_with_index.map { |path, index|
           safe_path_expand(path, index, last)
