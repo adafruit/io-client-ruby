@@ -24,7 +24,13 @@ require 'adafruit/io'
 Dir["./spec/support/**/*.rb"].each {|f| require f}
 
 # isolate "normal" test suite from making calls to io.adafruit.com
-WebMock.disable_net_connect!(allow_localhost: true)
+MY_KEY    = ENV['ADAFRUIT_IO_KEY'].freeze
+if MY_KEY
+  WebMock.disable_net_connect!(allow: 'io.adafruit.com')
+else
+  WebMock.disable_net_connect!(allow_localhost: true)
+  MY_KEY = 'blah'.freeze
+end
 
 def fixture_path
   File.expand_path("../fixtures", __FILE__)
@@ -41,8 +47,6 @@ def fixture_json(file)
   end
   $_fixture_json_files[file].dup
 end
-
-MY_KEY = 'blah'.freeze
 
 FEED_NAME1 = 'test_feed_1'.freeze
 FEED_DESC = 'My Test Feed Description'.freeze
