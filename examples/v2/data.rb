@@ -29,7 +29,7 @@ end
 api.send_batch_data(temperature, points)
 
 #
-# Reding data
+# Reading data
 #
 # With /data API, get all data points with pagination
 all_temperatures = []
