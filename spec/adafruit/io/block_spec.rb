@@ -18,8 +18,6 @@ RSpec.describe Adafruit::IO::Client do
 
     blocks = @aio.blocks(dashboard_key: 'db')
     expect(blocks).not_to be_empty
-
-    puts JSON.pretty_generate(blocks)
   end
 
   it 'returns a block' do
@@ -32,9 +30,13 @@ RSpec.describe Adafruit::IO::Client do
 
     block = @aio.block(dashboard_key: 'db', id: 1)
     expect(block).not_to be_empty
-
-    puts JSON.pretty_generate(block)
   end
+
+  it 'creates a new block'
+
+  it 'deletes a block'
+
+  it 'updates a block'
 
 end
 

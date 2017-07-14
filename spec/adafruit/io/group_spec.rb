@@ -32,4 +32,9 @@ RSpec.describe Adafruit::IO::Client do
     expect(groups).not_to be_empty
   end
 
+  it 'creates a group'
+  it 'adds a feed to a group'
+  it 'updates a group'
+  it 'deletes a group'
+
 end
