@@ -34,13 +34,11 @@ RSpec.describe Adafruit::IO::Client do
 
     context '#create' do
       it 'returns a new feed with the expected properties' do
-        mock_feed = mock_feed_record
-
         mock_response(
           path: api_path('feeds'),
           method: :post,
           status: 200,
-          body: fixture_json('feed'),
+          body: mock_feed_json,
         )
 
         feed = @aio.create_feed(name: mock_feed['name'])
@@ -54,27 +52,27 @@ RSpec.describe Adafruit::IO::Client do
 
   context 'with a newly created feed,' do
     context '#feeds with no args' do
-      it 'returns several feeds, with one containing the newly created feed' do
+      it 'returns the newly created feed' do
         mock_response(
           path: api_path('feeds'),
           method: :get,
           status: 200,
-          body: JSON.generate([ mock_feed_record ]),
+          body: JSON.generate([ mock_feed ]),
         )
 
         feeds = @aio.feeds
 
-        feed = feeds.find { |f| f['name'] == mock_feed_record['name'] }
+        feed = feeds.find { |f| f['name'] == mock_feed['name'] }
 
         expect(feed).not_to  be_nil
-        expect(feed['name']).to eq mock_feed_record['name']
+        expect(feed['name']).to eq mock_feed['name']
       end
     end
 
     context '#feed with one arg' do
       before do
         mock_response(
-          path: api_path('feeds', mock_feed_record['key']),
+          path: api_path('feeds', mock_feed['key']),
           method: :get,
           status: 200,
           body: mock_feed_json,
@@ -82,24 +80,24 @@ RSpec.describe Adafruit::IO::Client do
       end
 
       it 'returns that feed when given string key' do
-        feed = @aio.feed(mock_feed_record['key'])
-        expect(feed['name']).to eq mock_feed_record['name']
+        feed = @aio.feed(mock_feed['key'])
+        expect(feed['name']).to eq mock_feed['name']
       end
 
       it 'returns that feed when given string-key hash' do
-        feed = @aio.feed({'key' => mock_feed_record['key']})
-        expect(feed['name']).to eq mock_feed_record['name']
+        feed = @aio.feed({'key' => mock_feed['key']})
+        expect(feed['name']).to eq mock_feed['name']
       end
 
       it 'returns that feed when given symbol-key hash' do
-        feed = @aio.feed(key: mock_feed_record['key'])
-        expect(feed['name']).to eq mock_feed_record['name']
+        feed = @aio.feed(key: mock_feed['key'])
+        expect(feed['name']).to eq mock_feed['name']
       end
     end
 
     describe '#update_feed' do
       before(:example) do
-        @mock_record = mock_feed_record
+        @mock_record = mock_feed
 
         @updated_record = @mock_record.dup
         @updated_record['description'] = FEED_DESC
@@ -127,25 +125,25 @@ RSpec.describe Adafruit::IO::Client do
 
       it 'returns deleted feed' do
         mock_response(
-          path: api_path('feeds', mock_feed_record['key']),
+          path: api_path('feeds', mock_feed['key']),
           method: :delete,
           status: 200,
           body: fixture_json('feed')
         )
 
-        result = @aio.delete_feed(mock_feed_record['key'])
-        expect(result['id']).to eq mock_feed_record['id']
+        result = @aio.delete_feed(mock_feed['key'])
+        expect(result['id']).to eq mock_feed['id']
       end
 
       it "raises not found when feed doesn't exist" do
         mock_response(
-          path: api_path('feeds', mock_feed_record['key']),
+          path: api_path('feeds', mock_feed['key']),
           method: :delete,
           status: 404,
           body: fixture_json('not_found_error'),
         )
 
-        expect(@aio.delete_feed(mock_feed_record['key'])).to be_nil
+        expect(@aio.delete_feed(mock_feed['key'])).to be_nil
       end
 
     end

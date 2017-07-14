@@ -13,12 +13,12 @@ RSpec.describe Adafruit::IO::Client do
       it 'returns feed data' do
         # get Data
         mock_response(
-          path: "api/v2/test_username/feeds/#{ mock_feed_record['key'] }/data",
+          path: "api/v2/test_username/feeds/#{ mock_feed['key'] }/data",
           method: :get,
           status: 200,
           body: mock_data_json,
         )
-        data = @aio.data mock_feed_record
+        data = @aio.data mock_feed
 
         expect(data.size).to eq(3)
       end
@@ -26,12 +26,12 @@ RSpec.describe Adafruit::IO::Client do
       it 'accepts params' do
         # get DATA
         mock_response(
-          path: "api/v2/test_username/feeds/#{ mock_feed_record['key'] }/data?end_time=2001-01-01&start_time=2000-01-01",
+          path: "api/v2/test_username/feeds/#{ mock_feed['key'] }/data?end_time=2001-01-01&start_time=2000-01-01",
           method: :get,
           status: 200,
           body: mock_data_json,
         )
-        data = @aio.data(mock_feed_record, start_time: '2000-01-01', end_time: '2001-01-01')
+        data = @aio.data(mock_feed, start_time: '2000-01-01', end_time: '2001-01-01')
 
         expect(data.size).to eq(3)
       end

@@ -12,6 +12,8 @@ require 'adafruit/io/client/feeds'
 require 'adafruit/io/client/data'
 require 'adafruit/io/client/groups'
 require 'adafruit/io/client/tokens'
+require 'adafruit/io/client/dashboards'
+require 'adafruit/io/client/blocks'
 require 'adafruit/io/client/user'
 
 module Adafruit
@@ -46,6 +48,9 @@ module Adafruit
       include Adafruit::IO::Client::Data
       include Adafruit::IO::Client::Groups
       include Adafruit::IO::Client::Tokens
+      include Adafruit::IO::Client::Blocks
+      include Adafruit::IO::Client::Dashboards
+
       include Adafruit::IO::Client::User
 
       private

@@ -76,23 +76,27 @@ shared_context "AdafruitIOv2" do
                       :headers => response_headers)
   end
 
-  def mock_feed_json
-    fixture_json('feed')
-  end
+  %w(feed data feed_details token user group dashboard block).each do |k|
+    define_method(:"mock_#{k}_json") do
+      fixture_json(k)
+    end
 
-  def mock_feed_details_json
-    fixture_json('feed_details')
-  end
-
-  def mock_data_json
-    fixture_json('data')
-  end
-
-  def mock_feed_record
-    JSON.parse(mock_feed_json)
+    define_method(:"mock_#{k}") do
+      JSON.parse self.send(:"mock_#{k}_json")
+    end
   end
 
   def api_path(*args)
-    File.join(*["api", "v2", @aio.username].concat(args))
+    options = nil
+    if args.last.is_a?(Hash)
+      options = args.pop
+    end
+
+    username = @aio.username
+    if options && options.has_key?(:username)
+      username = options[:username]
+    end
+
+    File.join(*["api", "v2", username].concat(args.map(&:to_s)).compact)
   end
 end

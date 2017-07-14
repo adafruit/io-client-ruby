@@ -1,6 +1,7 @@
 module Adafruit
   module IO
     module Arguments
+      class ArgumentError < StandardError; end
 
       # Allows us to give a username during client initialization or with a specific method.
       def extract_username(args)
@@ -66,6 +67,19 @@ module Adafruit
           query[param] = options[param.to_sym] if options.has_key?(param.to_sym)
         end
         query
+      end
+
+      def require_argument(arguments, argument_name)
+        arg = arguments.first
+        if !arg.is_a?(Hash)
+          raise ArgumentError.new("This request requires arguments to be a Hash containing the key: :#{argument_name}")
+        end
+
+        if !(arg.has_key?(argument_name) || arg.has_key?(argument_name.to_s))
+          raise ArgumentError.new("Missing required parameter, make sure to include #{argument_name}")
+        end
+
+        arg[argument_name] || arg[argument_name.to_s]
       end
 
     end
