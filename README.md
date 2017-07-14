@@ -110,40 +110,11 @@ puts "read?"
 puts api.feed(garbage['key']).inspect
 ```
 
-## Table of Contents
-
-* [Feeds](#feeds)
-* [Data](#data)
-* [Groups](#groups)
-* [Dashboards](#dashboards)
-* [Blocks](#blocks)
-* [Activities](#activities)
-* [Triggers](#triggers)
-* [Permissions](#permissions)
-* [Tokens](#tokens)
-
-### Feeds
-
-Create
-
-
-
-
-
-### Data
-### Groups
-### Dashboards
-### Blocks
-### Activities
-### Triggers
-### Permissions
-### Tokens
-
-## Pagination
-
-
 ## License
-Copyright (c) 2014 Adafruit Industries. Licensed under the MIT license.
+
+Copyright (c) 2017 Adafruit Industries. Licensed under the MIT license.
+
+[Adafruit](https://adafruit.com) invests time and resources providing this open source code. Please support Adafruit and open-source hardware by purchasing products from [Adafruit](https://adafruit.com).
 
 ## Contributing
 
