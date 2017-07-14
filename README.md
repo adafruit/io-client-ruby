@@ -26,12 +26,12 @@ It is our goal to eventually support all API V2 methods, but that will happen in
 - [x] Data `2.0.0.beta.1`
 - [x] Groups `2.0.0.beta.1`
 - [x] MQTT `2.0.0.beta.3`
+- [x] Tokens `2.0.0.beta.4`
+- [x] Blocks `2.0.0.beta.4`
+- [x] Dashboards `2.0.0.beta.4`
 - [] Activities
-- [] Blocks
-- [] Dashboards
 - [] Permissions
 - [] Sessions
-- [] Tokens
 - [] Triggers
 
 ## Installation
