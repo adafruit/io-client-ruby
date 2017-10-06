@@ -11,12 +11,9 @@ def section(label)
   puts
 end
 
-api_key = ENV['AIO_KEY']
-username = ENV['AIO_USER']
-
 # to show all HTTP request activity from Faraday, add `debug: true`
-api = Adafruit::IO::Client.new key: api_key, username: username
-api.api_endpoint = 'http://io.adafruit.vm'
+api = Adafruit::IO::Client.new key: ENV['IO_KEY'], username: ENV['IO_USERNAME']
+api.api_endpoint = ENV['IO_URL']
 
 section 'Client Prepared' do
   puts api.inspect

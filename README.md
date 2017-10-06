@@ -29,9 +29,8 @@ It is our goal to eventually support all API V2 methods, but that will happen in
 - [x] Tokens `2.0.0.beta.4`
 - [x] Blocks `2.0.0.beta.4`
 - [x] Dashboards `2.0.0.beta.4`
-- [] Activities
-- [] Permissions
-- [] Sessions
+- [x] Activities `2.0.0.beta.5`
+- [x] Permissions `2.0.0.beta.5`
 - [] Triggers
 
 ## Installation

@@ -2,13 +2,9 @@
 # feeds are in the default group unless otherwise specified.
 
 require 'adafruit/io'
-require 'securerandom'
 
-api_key = ENV['AIO_KEY']
-username = ENV['AIO_USER']
-
-api = Adafruit::IO::Client.new key: api_key, username: username
-api.api_endpoint = 'http://io.adafruit.vm'
+api = Adafruit::IO::Client.new key: ENV['IO_KEY'], username: ENV['IO_USERNAME']
+api.api_endpoint = ENV['IO_URL']
 
 # create a feed
 puts "create"
