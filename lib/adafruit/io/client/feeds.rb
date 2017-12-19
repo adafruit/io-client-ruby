@@ -30,7 +30,7 @@ module Adafruit
 
         def create_feed(*args)
           username, arguments = extract_username(args)
-          feed_attrs = arguments.shift
+          feed_attrs = valid_feed_attrs(arguments)
 
           post api_url(username, 'feeds'), feed_attrs
         end
@@ -45,13 +45,19 @@ module Adafruit
         def update_feed(*args)
           username, arguments = extract_username(args)
           feed_key = get_key_from_arguments(arguments)
+          feed_attrs = valid_feed_attrs(arguments)
+
+          put api_url(username, 'feeds', feed_key), feed_attrs
+        end
+
+        private
+
+        def valid_feed_attrs(arguments)
           query = get_query_from_arguments(
             arguments,
             %w(name key description unit_type unit_symbol history visibility
                license status_notify status_timeout)
           )
-
-          put api_url(username, 'feeds', feed_key), query
         end
 
       end
