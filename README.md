@@ -31,7 +31,7 @@ It is our goal to eventually support all API V2 methods, but that will happen in
 - [x] Dashboards `2.0.0.beta.4`
 - [x] Activities `2.0.0.beta.5`
 - [x] Permissions `2.0.0.beta.5`
-- [] Triggers
+- [x] Triggers `2.0.0.beta.6`
 
 ## Installation
 
