@@ -16,7 +16,7 @@ require 'adafruit/io/client/feeds'
 require 'adafruit/io/client/groups'
 require 'adafruit/io/client/permissions'
 require 'adafruit/io/client/tokens'
-
+require 'adafruit/io/client/triggers'
 require 'adafruit/io/client/user'
 
 module Adafruit
@@ -55,7 +55,7 @@ module Adafruit
       include Adafruit::IO::Client::Groups
       include Adafruit::IO::Client::Permissions
       include Adafruit::IO::Client::Tokens
-
+      include Adafruit::IO::Client::Triggers
       include Adafruit::IO::Client::User
 
       private
