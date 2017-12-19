@@ -52,24 +52,22 @@ Or install it yourself as:
 Each time you use the library, you'll want to pass your [AIO Key][4] to the client.
 
 ```ruby
-
 require 'adafruit/io'
 
 # create an instance
 aio = Adafruit::IO::Client.new key: 'KEY'
 ```
 
-Since every API request requires a username, you can also pass a username to the client initializer.
+Since every API request requires a username, you can also pass a username to the client initializer to use it for every request.
 
 ```ruby
-
 require 'adafruit/io'
 
 # create an instance
 aio = Adafruit::IO::Client.new key: 'KEY', username: 'USERNAME'
 ```
 
-All return values are plain Ruby hashes based on the JSON response returned by the API. Most basic requests should get back a Hash with a `key` field. The key can be used in subsequent requests. API requests that return a list of objects will return a simple array of hashes.
+All return values are plain Ruby hashes based on the JSON response returned by the API. Most basic requests should get back a Hash with a `key` field. The key can be used in subsequent requests. API requests that return a list of objects will return a simple array of hashes. Feeds, Groups, and Dashboards all rely on the `key` value, other endpoints (Blocks, Permissions, Tokens, Triggers) use `id`.
 
 Here's an example of creating, adding data to, and deleting a feed.
 
