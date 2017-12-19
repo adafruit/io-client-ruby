@@ -2,6 +2,7 @@
 # feeds are in the default group unless otherwise specified.
 
 require 'adafruit/io'
+require 'securerandom'
 
 api = Adafruit::IO::Client.new key: ENV['IO_KEY'], username: ENV['IO_USERNAME']
 api.api_endpoint = ENV['IO_URL']
