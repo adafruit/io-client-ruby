@@ -20,3 +20,4 @@ profile
 profile-dev
 .ruby-version
 release.md
+.rake_tasks~
