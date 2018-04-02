@@ -33,14 +33,14 @@ It is our goal to eventually support all API V2 methods, but that will happen in
 - [x] Permissions `2.0.0.beta.5`
 - [x] Triggers `2.0.0.beta.6`
 
-Still needing tests:
+Still needing complete tests:
 
 - [x] Feeds
 - [x] Data
-- [x] Groups
 - [x] Tokens
 - [x] Blocks
-- [x] Dashboards
+- [ ] Dashboards *has pending*
+- [ ] Groups *has pending*
 - [ ] Activities
 - [ ] Permissions
 - [ ] Triggers
