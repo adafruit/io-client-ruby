@@ -20,14 +20,16 @@ module Adafruit
           get api_url(username, 'dashboards', dashboard_key, 'blocks', block_id)
         end
 
+        # Create a block
         def create_block(*args)
           username, arguments = extract_username(args)
           dashboard_key = require_argument(arguments, :dashboard_key)
-          block_attrs = arguments.shift
+          block_attrs = valid_block_attrs(arguments)
 
           post api_url(username, 'dashboards', dashboard_key, 'blocks'), block_attrs
         end
 
+        # Delete a block
         def delete_block(*args)
           username, arguments = extract_username(args)
           dashboard_key = require_argument(arguments, :dashboard_key)
@@ -36,14 +38,14 @@ module Adafruit
           delete api_url(username, 'dashboards', dashboard_key, 'blocks', block_id)
         end
 
+        # Update a block
         def update_block(*args)
           username, arguments = extract_username(args)
           dashboard_key = require_argument(arguments, :dashboard_key)
           block_id = get_key_from_arguments(arguments)
+          block_attrs = valid_block_attrs(arguments)
 
-          query = get_query_from_arguments(arguments, %w(name properties visual_type column row size_x size_y block_feeds))
-
-          put api_url(username, 'dashboards', dashboard_key, 'blocks', block_id), query
+          put api_url(username, 'dashboards', dashboard_key, 'blocks', block_id), block_attrs
         end
 
         # The list of every valid property name that can be stored by Adafruit IO.
@@ -68,6 +70,14 @@ module Adafruit
           )
         end
 
+        private
+
+        def valid_block_attrs(arguments)
+          get_query_from_arguments(
+            arguments,
+            %w(name properties visual_type column row size_x size_y block_feeds)
+          )
+        end
       end
     end
   end
