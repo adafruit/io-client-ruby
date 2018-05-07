@@ -76,7 +76,8 @@ shared_context "AdafruitIOv2" do
                       :headers => response_headers)
   end
 
-  %w(feed data feed_details token user group dashboard block).each do |k|
+    %w(feed data feed_details token user group activities permission
+       create_trigger trigger layouts create_dashboard dashboard block).each do |k|
     define_method(:"mock_#{k}_json") do
       fixture_json(k)
     end
