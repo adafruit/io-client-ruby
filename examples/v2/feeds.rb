@@ -31,6 +31,10 @@ api.delete_feed(garbage)
 
 # try reading
 puts "read?"
-# ... get nothing
-puts api.feed(garbage['key']).inspect
+# ... get 404
+begin
+  api.feed(garbage['key'])
+rescue => ex
+  puts "ERROR #{ex.response.status}: #{ex.message}"
+end
 

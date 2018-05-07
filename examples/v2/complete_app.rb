@@ -23,13 +23,13 @@ temperature = nil
 humidity = nil
 
 section 'Getting or Creating Feeds' do
-  temperature = api.feed_details('temperature')
+  temperature = api.feed_details('temperature') rescue nil
   if temperature.nil?
     puts "<creating Temperature feed>"
     temperature = api.create_feed(name: 'Temperature')
   end
 
-  humidity = api.feed_details('humidity')
+  humidity = api.feed_details('humidity') rescue nil
   if humidity.nil?
     puts "<creating Humidity feed>"
     humidity = api.create_feed(name: 'Humidity')
@@ -76,9 +76,9 @@ end
 # With /data API, get all data points with pagination
 section 'Get All Temperatures' do
   all_temperatures = api.data(temperature['key'])
-  puts "%-24s%-16s%-30s" % ['ID', 'Temperature', 'Timestamp']
+  puts "%-32s%-16s%-30s" % ['ID', 'Temperature', 'Timestamp']
   all_temperatures.each do |temp|
-    puts "%-24s%-16.3f%-30s" % [temp['id'], temp['value'].to_f, temp['created_at']]
+    puts "%-32s%-16.3f%-30s" % [temp['id'], temp['value'].to_f, temp['created_at']]
   end
 end
 
@@ -106,11 +106,20 @@ end
 
 
 section 'Working with data as a stream' do
+  point = nil
 
   5.times do
-    point = api.next_data(temperature['key'])
+    begin
+      point = api.next_data(temperature['key'])
+    rescue => ex
+      if ex.response.status === 404
+        break
+      else
+        raise ex
+      end
+    end
+
     puts "POINT #{point.inspect}"
     # puts "TEMPERATURE %s %0.3f" % [ point['id'], point['value'].to_f ]
   end
-
 end
