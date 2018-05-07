@@ -38,7 +38,7 @@ module Adafruit
           trigger_id = get_id_from_arguments(arguments)
           attrs = valid_trigger_attrs(arguments)
 
-          put api_url(username, 'triggers', feed_key), query
+          put api_url(username, 'triggers', trigger_id), attrs
         end
 
         private
