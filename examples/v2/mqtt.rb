@@ -38,7 +38,10 @@ value = 1
 loop do
   puts "[publishing] #{value}"
 
+  ## publish to a single feed
   # mqtt.publish('sample-data', value)
+
+  ## publish to multiple feeds in a group
   mqtt.publish_group('default', {
     'feed-a' => value * rand(),
     'feed-b' => value * rand(),

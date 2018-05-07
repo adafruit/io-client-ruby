@@ -152,6 +152,15 @@ module Adafruit
 
       private
 
+      def encode_json(record)
+        begin
+          JSON.generate record
+        rescue JSON::GeneratorError => ex
+          puts "failed to generate JSON from record: #{record.inspect}"
+          raise ex
+        end
+      end
+
       def key_to_feed_topic(key)
         "%s/f/%s" % [@options[:username], key]
       end
@@ -169,7 +178,7 @@ module Adafruit
           end
         end
 
-        JSON.generate payload
+        encode_json payload
       end
 
       def payload_from_values_with_location(values, location)
@@ -183,7 +192,7 @@ module Adafruit
           end
         end
 
-        JSON.generate payload
+        encode_json payload
       end
 
       def indifferent_keys(hash)
