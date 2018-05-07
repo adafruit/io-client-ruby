@@ -1,0 +1,21 @@
+{
+  "username": "test_username",
+  "owner": {
+    "id": 1,
+    "username": "test_username"
+  },
+  "id": 6,
+  "feed_id": 89,
+  "operator": "gt",
+  "created_at": "2017-12-19T18:44:32Z",
+  "updated_at": "2017-12-19T18:44:32Z",
+  "value": "50",
+  "action": "feed",
+  "to_feed_id": null,
+  "action_feed_id": 90,
+  "action_value": "Trigger Target 6425e758 over 50!",
+  "trigger_type_id": 2,
+  "enabled": true,
+  "trigger_type": "reactive",
+  "description": "If Trigger Target 6425e758 is greater than \"50\" then set Notifications 5fcf9820 to \"Trigger Target 6425e758 over 50!\"."
+}
