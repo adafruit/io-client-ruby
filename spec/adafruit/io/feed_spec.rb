@@ -19,7 +19,7 @@ RSpec.describe Adafruit::IO::Client do
 
   context 'starting with no feeds' do
     context '#feed with string key argument' do
-      it 'returns nil' do
+      it 'raises request error' do
         mock_response(
           path: api_path('feeds', FEED_KEY1),
           method: :get,
@@ -27,8 +27,7 @@ RSpec.describe Adafruit::IO::Client do
           body: fixture_json('not_found_error'),
         )
 
-        feed = @aio.feed FEED_KEY1
-        expect(feed).to be_nil
+        expect { @aio.feed FEED_KEY1 }.to raise_error(Adafruit::IO::RequestError)
       end
     end
 

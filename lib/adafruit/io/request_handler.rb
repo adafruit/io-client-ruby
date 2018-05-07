@@ -2,6 +2,15 @@ require 'open-uri'
 
 module Adafruit
   module IO
+    class RequestError < StandardError
+      attr_reader :response
+
+      def initialize(message, response)
+        super(message)
+        @response = response
+      end
+    end
+
     module RequestHandler
 
       attr_reader :last_response, :pagination
@@ -70,11 +79,7 @@ module Adafruit
         update_pagination(response)
 
         if response.status < 200 || response.status > 299
-          if response.status === 404
-            nil
-          else
-            raise "GET error: #{ response.body }"
-          end
+          raise Adafruit::IO::RequestError.new("GET error: #{ response.body }", response)
         else
           parsed_response response
         end
@@ -87,7 +92,7 @@ module Adafruit
         end
 
         if response.status < 200 || response.status > 299
-          raise "POST error: #{ response.body }"
+          raise Adafruit::IO::RequestError.new("POST error: #{ response.body }", response)
         else
           parsed_response response
         end
@@ -100,7 +105,7 @@ module Adafruit
         end
 
         if response.status < 200 || response.status > 299
-          raise "PUT error: #{ response.body }"
+          raise Adafruit::IO::RequestError.new("PUT error: #{ response.body }", response)
         else
           parsed_response response
         end
@@ -115,7 +120,7 @@ module Adafruit
           if response.status === 404
             nil
           else
-            raise "DELETE error: #{ response.body }"
+            raise Adafruit::IO::RequestError.new("DELETE error: #{ response.body }", response)
           end
         else
           parsed_response response
