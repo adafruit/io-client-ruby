@@ -13,8 +13,13 @@ def nice_time(tstring)
   time.strftime('%Y-%m-%d %r')
 end
 
+
+# replace ENV['IO_KEY'] and ENV['IO_USERNAME'] with your key and username,
+# respectively, or add IO_KEY and IO_USERNAME to your shell environment before
+# you run this script
+#
+# to show all HTTP request activity add `debug: true`
 api = Adafruit::IO::Client.new key: ENV['IO_KEY'], username: ENV['IO_USERNAME']
-api.api_endpoint = ENV['IO_URL']
 
 activities = api.activities
 

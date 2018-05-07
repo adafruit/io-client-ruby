@@ -1,15 +1,15 @@
 
 require 'adafruit/io'
 
-api_key = ENV['AIO_KEY']
-username = ENV['AIO_USER']
+api_key = ENV['IO_KEY']
+username = ENV['IO_USER']
 
 # Optionally set uri (hostname of Adafruit IO compatible MQTT service),
 # protocol, and port.
 mqtt = Adafruit::IO::MQTT.new(username, api_key,
-  uri: 'io.adafruit.us',
-  protocol: 'mqtts',
-  port: 8883
+  uri: 'io.adafruit.vm',
+  protocol: 'mqtt',
+  port: 1883
 )
 
 # background listener

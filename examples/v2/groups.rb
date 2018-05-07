@@ -2,9 +2,16 @@
 # feeds are in the default group unless otherwise specified.
 
 require 'adafruit/io'
+require 'securerandom'
 
-api = Adafruit::IO::Client.new key: ENV['IO_KEY'], username: ENV['IO_USERNAME']
-api.api_endpoint = ENV['IO_URL']
+# replace ENV['IO_KEY'] and ENV['IO_USERNAME'] with your key and username,
+# respectively, or add IO_KEY and IO_USERNAME to your shell environment before
+# you run this script
+#
+# to show all HTTP request activity add `debug: true`
+api_key = ENV['IO_KEY']
+username = ENV['IO_USERNAME']
+api = Adafruit::IO::Client.new key: api_key, username: username
 
 # create a group
 puts "create"

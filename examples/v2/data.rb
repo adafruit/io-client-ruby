@@ -3,15 +3,20 @@
 
 require 'adafruit/io'
 
-api_key = ENV['AIO_KEY']
-username = ENV['AIO_USER']
-
+# replace ENV['IO_KEY'] and ENV['IO_USERNAME'] with your key and username,
+# respectively, or add IO_KEY and IO_USERNAME to your shell environment before
+# you run this script
+#
+# to show all HTTP request activity add `debug: true`
+api_key = ENV['IO_KEY']
+username = ENV['IO_USERNAME']
 api = Adafruit::IO::Client.new key: api_key, username: username
-api.api_endpoint = 'http://io.adafruit.vm'
 
-temperature = api.feed('temperature')
+feed_key = "temperature-#{rand(1000000)}"
+
+temperature = api.feed(feed_key) rescue nil
 if temperature.nil?
-  temperature = api.create_feed name: "Temperature"
+  temperature = api.create_feed name: feed_key
 end
 
 #
@@ -36,16 +41,18 @@ all_temperatures = []
 end_time = Time.now
 
 loop do
-  results = api.data(temperature['key'], limit: 4, end_time: end_time)
+  results = api.data(temperature['key'], limit: 10, end_time: end_time)
   print '.'
 
   all_temperatures = all_temperatures.concat(results)
 
   break if api.last_page?
   end_time = api.pagination['start']
+
+  sleep 3
 end
 puts
 
 all_temperatures.each do |temp|
-  puts "%-24s%-16.3f%-30s" % [temp['id'], temp['value'].to_f, temp['created_at']]
+  puts "%-32s%-16.3f%-30s" % [temp['id'], temp['value'].to_f, temp['created_at']]
 end
