@@ -1,3 +1,11 @@
+2.0.0
+----
+- initial API v2 client release
+- basic API support for: activities, blocks, dashboards, data, feeds, groups, permissions, tokens, triggers, and user records
+- basic MQTT client
+
+
+
 2.0.0.beta.3
 ----
 - MQTT Client

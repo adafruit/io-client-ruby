@@ -32,18 +32,18 @@ It is our goal to eventually support all API V2 methods, but that will happen in
 - [x] Activities `2.0.0.beta.5`
 - [x] Permissions `2.0.0.beta.5`
 - [x] Triggers `2.0.0.beta.6`
+- [x] Feeds `2.0.0`
+- [x] Data `2.0.0`
+- [x] Tokens `2.0.0`
+- [x] Blocks `2.0.0`
+- [x] Dashboards `2.0.0`
+- [x] Groups `2.0.0`
+- [x] Activities `2.0.0`
+- [x] Permissions `2.0.0`
+- [x] Triggers `2.0.0`
 
 Still needing complete tests:
 
-- [x] Feeds
-- [x] Data
-- [x] Tokens
-- [x] Blocks
-- [ ] Dashboards *has pending*
-- [ ] Groups *has pending*
-- [ ] Activities
-- [ ] Permissions
-- [ ] Triggers
 - [ ] MQTT
 
 ## Installation
@@ -62,7 +62,7 @@ Or install it yourself as:
 
 ## Basic Usage
 
-Each time you use the library, you'll want to pass your [AIO Key][4] to the client.
+Each time you use the library, you'll have to pass your [Adafruit IO Key][4] to the client.
 
 ```ruby
 require 'adafruit/io'
@@ -80,15 +80,15 @@ require 'adafruit/io'
 aio = Adafruit::IO::Client.new key: 'KEY', username: 'USERNAME'
 ```
 
-All return values are plain Ruby hashes based on the JSON response returned by the API. Most basic requests should get back a Hash with a `key` field. The key can be used in subsequent requests. API requests that return a list of objects will return a simple array of hashes. Feeds, Groups, and Dashboards all rely on the `key` value, other endpoints (Blocks, Permissions, Tokens, Triggers) use `id`.
+All return values are **plain Ruby hashes** based on the JSON response returned by the API. Most basic requests should get back a Hash with a `key` field. The key can be used in subsequent requests. API requests that return a list of objects will return a simple array of hashes. Feeds, Groups, and Dashboards all rely on the `key` value, other endpoints (Blocks, Permissions, Tokens, Triggers) use `id`.
 
 Here's an example of creating, adding data to, and deleting a feed.
 
 ```ruby
 require 'adafruit/io'
 
-api_key = ENV['AIO_KEY']
-username = ENV['AIO_USER']
+api_key = ENV['IO_KEY']
+username = ENV['IO_USER']
 
 api = Adafruit::IO::Client.new key: api_key, username: username
 
@@ -120,19 +120,22 @@ puts "read?"
 puts api.feed(garbage['key']).inspect
 ```
 
+This code and more is available in [the examples/ directory](examples/).
+
 ## License
 
-Copyright (c) 2017 Adafruit Industries. Licensed under the MIT license.
+Copyright (c) 2018 Adafruit Industries. Licensed under the MIT license.
 
 [Adafruit](https://adafruit.com) invests time and resources providing this open source code. Please support Adafruit and open-source hardware by purchasing products from [Adafruit](https://adafruit.com).
 
 ## Contributing
 
 1. Fork it ( http://github.com/adafruit/io-client-ruby/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+1. Create your feature branch (`git checkout -b my-new-feature`)
+1. Write tests, write code, and run the tests (`bundle exec rspec`)
+1. Commit your changes (`git commit -am 'Add some feature'`)
+1. Push to the branch (`git push origin my-new-feature`)
+1. Create a new Pull Request
 
 [1]: https://www.ruby-lang.org
 [2]: https://io.adafruit.com
