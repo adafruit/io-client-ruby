@@ -40,6 +40,14 @@ module Adafruit
 
           put api_url(username, 'dashboards', dashboard_key), query
         end
+
+        def update_dashboard_layouts(*args)
+          username, arguments = extract_username(args)
+          dashboard_key = get_key_from_arguments(arguments)
+          query = get_query_from_arguments(arguments, %w(layouts))
+
+          post api_url(username, 'dashboards', dashboard_key, 'update_layouts'), query
+        end
       end
     end
   end
