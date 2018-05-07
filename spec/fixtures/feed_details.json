@@ -1,0 +1,74 @@
+{
+  "username": "test_username",
+  "owner": {
+    "id": 1,
+    "username": "test_username"
+  },
+  "id": 13,
+  "name": "Example 3a5d79b9",
+  "description": null,
+  "history": true,
+  "unit_type": null,
+  "unit_symbol": null,
+  "last_value": "goes here",
+  "visibility": "private",
+  "license": null,
+  "created_at": "2017-04-11T20:08:40Z",
+  "updated_at": "2017-04-11T20:08:40Z",
+  "status_notify": false,
+  "status_timeout": 60,
+  "key": "garbage-3a5d79b9",
+  "group": {
+    "id": 1,
+    "key": "default",
+    "name": "Default",
+    "user_id": 1
+  },
+  "details": {
+    "shared_with": [
+
+    ],
+    "data": {
+      "first": {
+        "id": 44320,
+        "value": "something",
+        "feed_id": 13,
+        "created_at": "2017-04-11T20:08:40Z",
+        "created_epoch": 1491941320.409515,
+        "expiration": null,
+        "group_id": null,
+        "position": null,
+        "completed_at": null,
+        "lat": null,
+        "lon": null,
+        "ele": null,
+        "location": null
+      },
+      "last": {
+        "id": 44321,
+        "value": "goes here",
+        "feed_id": 13,
+        "created_at": "2017-04-11T20:08:40Z",
+        "created_epoch": 1491941320.682605,
+        "expiration": null,
+        "group_id": null,
+        "position": null,
+        "completed_at": null,
+        "lat": null,
+        "lon": null,
+        "ele": null,
+        "location": null
+      },
+      "count": 2
+    }
+  },
+  "groups": [
+    {
+      "id": 1,
+      "key": "default",
+      "name": "Default",
+      "user_id": 1
+    }
+  ]
+}
+

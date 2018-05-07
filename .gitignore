@@ -17,3 +17,7 @@ test/version_tmp
 tmp
 .env
 profile
+profile-dev
+.ruby-version
+release.md
+.rake_tasks~

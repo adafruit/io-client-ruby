@@ -1,0 +1,12 @@
+{
+  "id": 1,
+  "name": "Test User",
+  "color": null,
+  "username": "test_username",
+  "role": "tester",
+  "default_group_id": 1,
+  "default_dashboard_id": 1,
+  "time_zone": null,
+  "created_at": "2017-03-29T18:03:59Z",
+  "updated_at": "2017-03-29T18:04:00Z"
+}

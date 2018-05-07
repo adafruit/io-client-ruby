@@ -1,60 +1,68 @@
+require 'json'
+
 require 'faraday'
 require 'faraday_middleware'
 require 'faraday_middleware/response/mashify'
-require 'json'
-require 'adafruit/io/client/feed'
-require 'adafruit/io/client/group'
+
+require 'adafruit/io/arguments'
+require 'adafruit/io/configurable'
+require 'adafruit/io/request_handler'
+
+require 'adafruit/io/client/activities'
+require 'adafruit/io/client/blocks'
+require 'adafruit/io/client/dashboards'
 require 'adafruit/io/client/data'
-require 'adafruit/io/client/request_handler'
+require 'adafruit/io/client/feeds'
+require 'adafruit/io/client/groups'
+require 'adafruit/io/client/permissions'
+require 'adafruit/io/client/tokens'
+require 'adafruit/io/client/triggers'
+require 'adafruit/io/client/user'
 
 module Adafruit
   module IO
     class Client
 
-      include Adafruit::IO::Client::RequestHandler
+      include Adafruit::IO::Arguments
+      include Adafruit::IO::Configurable
+      include Adafruit::IO::RequestHandler
 
       def initialize(options)
         @key = options[:key]
+        @username = options[:username]
+
+        @debug = !!options[:debug]
       end
 
-      def get(url, options = {})
-        request :handle_get, url, options
-      end
-
-      def post(url, data, options = {})
-        request :handle_post, url, data, options
-      end
-
-      def put(url, data, options = {})
-        request :handle_put, url, data, options
-      end
-
-      def delete(url, options = {})
-        request :handle_delete, url
+      # Text representation of the client, masking key
+      #
+      # @return [String]
+      def inspect
+        inspected = super
+        inspected = inspected.gsub! @key, "#{@key[0..3]}#{'*' * (@key.size - 3)}" if @key
+        inspected
       end
 
       def last_response
         @last_response
       end
 
-      def feeds(id_or_key = nil)
-        Adafruit::IO::Feed.new(self, id_or_key)
-      end
+      include Adafruit::IO::Client::Activities
+      include Adafruit::IO::Client::Blocks
+      include Adafruit::IO::Client::Dashboards
+      include Adafruit::IO::Client::Data
+      include Adafruit::IO::Client::Feeds
+      include Adafruit::IO::Client::Groups
+      include Adafruit::IO::Client::Permissions
+      include Adafruit::IO::Client::Tokens
+      include Adafruit::IO::Client::Triggers
+      include Adafruit::IO::Client::User
 
-      def groups(id_or_key = nil)
-        Adafruit::IO::Group.new(self, id_or_key)
-      end
-
-      def data(feed_id_or_key = nil, id_or_key = nil)
-        Adafruit::IO::Data.new(self, feed_id_or_key, id_or_key)
-      end
-
-  private
+      private
 
       def conn
-        #Faraday.new(:url => 'http://localhost:3002') do |c|
-        if ENV['ADAFRUIT_IO_URL']
-          url = ENV['ADAFRUIT_IO_URL']
+        if api_endpoint
+          url = api_endpoint
         else
           url = 'https://io.adafruit.com'
         end
@@ -65,18 +73,41 @@ module Adafruit
           c.headers['User-Agent'] = "AdafruitIO-Ruby/#{VERSION} (#{RUBY_PLATFORM})"
           c.request :json
 
-          c.response :xml,  :content_type => /\bxml$/
-          #c.response :mashify, :content_type => /\bjson$/
-          #c.response :json
+          # if @debug is true, Faraday will get really noisy when making requests
+          if @debug
+            c.response :logger
+          end
 
           c.use :instrumentation
           c.adapter Faraday.default_adapter
         end
       end
 
-      def request(method, url, data = nil, options = nil)
-        @last_response = send(method, url, data)
+      def api_url(username, *args)
+        safe_path_join *['api', 'v2', username].concat(args)
       end
+
+      # safely build URL paths from segments
+      def safe_path_join(*paths)
+        paths = paths.compact.map(&:to_s).reject(&:empty?)
+        last = paths.length - 1
+        paths.each_with_index.map { |path, index|
+          safe_path_expand(path, index, last)
+        }.join
+      end
+
+      def safe_path_expand(path, current, last)
+        if path[0] === '/' && current != 0
+          path = path[1..-1]
+        end
+
+        unless path[-1] === '/' || current == last
+          path = [path, '/']
+        end
+
+        path
+      end
+
     end
   end
 end

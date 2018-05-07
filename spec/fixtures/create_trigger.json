@@ -1,0 +1,9 @@
+{
+  "feed_id": 89,
+  "operator": "gt",
+  "value": "50",
+  "action": "feed",
+  "action_feed_id": 90,
+  "action_value": "Trigger Target 6425e758 over 50!",
+  "trigger_type": "reactive"
+}

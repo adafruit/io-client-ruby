@@ -4,6 +4,48 @@
 
 A [Ruby][1] client for use with with [io.adafruit.com][2].
 
+Note, this documentation covers the gem supporting V2 of the API, which is currently under active development and may be missing some features. It also breaks support for code that used version <= 1.0.4 of this library.
+
+Older releases are available at these links:
+
+* [1.0.4](https://github.com/adafruit/io-client-ruby/tree/v1.0.4)
+* [1.0.3](https://github.com/adafruit/io-client-ruby/tree/v1.0.3)
+* [1.0.0](https://github.com/adafruit/io-client-ruby/tree/v1.0.0)
+
+This is a near complete rewrite and strip-down of the library intended to support V2 of the Adafruit IO API with less code, maintenance, and stress.
+
+Why rewrite? This lets us the replace the existing, custom ActiveRecord-based interface with a flat, stateless API client returning plain hashes based on the JSON returned from API.Instead of writing a bunch of Ruby to make it feel like we're in a Rails app, we're just providing hooks into the API and a thin wrapper around Faraday.
+
+The API is not very complex, code that uses it shouldn't be either.
+
+## Roadmap
+
+It is our goal to eventually support all API V2 methods, but that will happen in stages.
+
+- [x] Feeds `2.0.0.beta.1`
+- [x] Data `2.0.0.beta.1`
+- [x] Groups `2.0.0.beta.1`
+- [x] MQTT `2.0.0.beta.3`
+- [x] Tokens `2.0.0.beta.4`
+- [x] Blocks `2.0.0.beta.4`
+- [x] Dashboards `2.0.0.beta.4`
+- [x] Activities `2.0.0.beta.5`
+- [x] Permissions `2.0.0.beta.5`
+- [x] Triggers `2.0.0.beta.6`
+- [x] Feeds `2.0.0`
+- [x] Data `2.0.0`
+- [x] Tokens `2.0.0`
+- [x] Blocks `2.0.0`
+- [x] Dashboards `2.0.0`
+- [x] Groups `2.0.0`
+- [x] Activities `2.0.0`
+- [x] Permissions `2.0.0`
+- [x] Triggers `2.0.0`
+
+Still needing complete tests:
+
+- [ ] MQTT
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -18,351 +60,82 @@ Or install it yourself as:
 
     $ gem install adafruit-io
 
-## Usage
+## Basic Usage
 
-Each time you use the library, you'll want to pass your [AIO Key][4] to the client.
-
-```ruby
-
-require 'adafruit/io'
-
-# create an instance
-aio = Adafruit::IO::Client.new :key => 'AIO_KEY_HERE'
-
-```
-
-## Table of Contents
-
-* [Feeds](#feeds)
-  * [Create](#feed-creation)
-  * [Read](#feed-retrieval)
-  * [Update](#feed-updating)
-  * [Delete](#feed-deletion)
-* [Data](#data)
-  * [Create](#data-creation)
-  * [Read](#data-retrieval)
-  * [Update](#data-updating)
-  * [Delete](#data-deletion)
-  * [Helper Methods](#helper-methods)
-    * [Send](#send)
-    * [Next](#next)
-    * [Last](#last)
-    * [Previous](#previous)
-  * [Readable](#readable-data)
-  * [Writable](#writable-data)
-* [Groups](#groups)
-  * [Create](#group-creation)
-  * [Read](#group-retrieval)
-  * [Update](#group-updating)
-  * [Delete](#group-deletion)
-
-### Feeds
-
-Feeds are the core of the Adafruit IO system. The feed holds metadata about data that gets pushed, and you will
-have one feed for each type of data you send to the system. You can have separate feeds for each
-sensor in a project, or you can use one feed to contain JSON encoded data for all of your sensors.
-
-#### Feed Creation
-
-You have two options here, you can create a feed by passing a feed name, or you can pass an object if you would
-like to define more properties.  If you would like to find information about what properties are available, please
-visit the [Adafruit IO feed API docs][3].
+Each time you use the library, you'll have to pass your [Adafruit IO Key][4] to the client.
 
 ```ruby
 require 'adafruit/io'
 
 # create an instance
-aio = Adafruit::IO::Client.new :key => 'AIO_KEY_HERE'
-
-puts aio.feeds.create({:name => "Temperature"})
+aio = Adafruit::IO::Client.new key: 'KEY'
 ```
 
-#### Feed Retrieval
-
-You can get a list of your feeds by using the `aio.feeds.retrieve` method.
+Since every API request requires a username, you can also pass a username to the client initializer to use it for every request.
 
 ```ruby
 require 'adafruit/io'
 
 # create an instance
-aio = Adafruit::IO::Client.new :key => 'AIO_KEY_HERE'
-
-#get all feeds
-puts aio.feeds.retrieve
+aio = Adafruit::IO::Client.new key: 'KEY', username: 'USERNAME'
 ```
 
-You can also get a specific feed by ID, key, or name by using the `aio.feeds.retrieve(id)` method.
+All return values are **plain Ruby hashes** based on the JSON response returned by the API. Most basic requests should get back a Hash with a `key` field. The key can be used in subsequent requests. API requests that return a list of objects will return a simple array of hashes. Feeds, Groups, and Dashboards all rely on the `key` value, other endpoints (Blocks, Permissions, Tokens, Triggers) use `id`.
+
+Here's an example of creating, adding data to, and deleting a feed.
 
 ```ruby
 require 'adafruit/io'
 
-# create an instance
-aio = Adafruit::IO::Client.new :key => 'AIO_KEY_HERE'
+api_key = ENV['IO_KEY']
+username = ENV['IO_USER']
 
-#get a single feed
-feed = aio.feeds.retrieve("Temperature")
-puts feed.name
-puts feed.last_value
-```
-#### Feed Updating
+api = Adafruit::IO::Client.new key: api_key, username: username
 
-You can update [feed properties][3] by retrieving a feed, and subsequently calling the save method.
+# create a feed
+puts "create"
+garbage = api.create_feed(name: "Garbage 123")
 
-```ruby
-require 'adafruit/io'
+# add data
+puts "add data"
+api.send_data garbage, 'something'
+api.send_data garbage, 'goes here'
 
-# create an instance
-aio = Adafruit::IO::Client.new :key => 'AIO_KEY_HERE'
+# load data
+puts "load data"
+data = api.data(garbage)
+puts "#{data.size} points: #{ data.map {|d| d['value']}.join(', ') }"
 
-#get the feed
-feed = aio.feeds.retrieve("Temperature")
-feed.name = "adsfsdff"
-feed.description = "hey hey"
-feed.save
-```
-#### Feed Deletion
+# get details
+puts "read"
+puts JSON.pretty_generate(api.feed_details(garbage))
 
-You can delete a feed by ID, key, or name by retrieving a feed, and subsequently calling the delete method.
+# delete feed
+puts "delete"
+api.delete_feed(garbage)
 
-```ruby
-require 'adafruit/io'
-
-# create an instance
-aio = Adafruit::IO::Client.new :key => 'AIO_KEY_HERE'
-
-feed = aio.feeds.retrieve("Temperature")
-puts feed.delete
+# try reading
+puts "read?"
+# ... get nothing
+puts api.feed(garbage['key']).inspect
 ```
 
-### Data
-
-Data represents the data contained in feeds. You can read, add, modify, and delete data. There are also
-a few convienient methods for sending data to feeds and selecting certain pieces of data.
-
-#### Data Creation
-
-Data can be created [after you create a feed](#data-creation), by using the
-`aio.feeds(id).data.create(value)` method.
-
-```ruby
-require 'adafruit/io'
-
-# create an instance
-aio = Adafruit::IO::Client.new :key => 'AIO_KEY_HERE'
-
-data = aio.feeds("Temperature").data.create({:value => 11})
-puts data.inspect
-```
-
-#### Data Retrieval
-
-You can get all of the data data by using the `aio.feeds(187).data.retrieve` method. The
-callback will be called with errors and the data array as arguments.
-
-```ruby
-require 'adafruit/io'
-
-# create an instance
-aio = Adafruit::IO::Client.new :key => 'AIO_KEY_HERE'
-
-data = aio.feeds(187).data.retrieve
-puts data.inspect
-```
-
-You can also get a specific value by ID by using the `aio.feeds(id).data.retrieve(id)` method.
-
-```ruby
-require 'adafruit/io'
-
-# create an instance
-aio = Adafruit::IO::Client.new :key => 'AIO_KEY_HERE'
-
-data = aio.feeds(187).data.retrieve(288718)
-puts data.inspect
-```
-
-#### Data Updating
-
-Values can be updated by retrieving the data, updating the property, and subsequently calling the save method.
-
-```ruby
-require 'adafruit/io'
-
-# create an instance
-aio = Adafruit::IO::Client.new :key => 'AIO_KEY_HERE'
-
-#get the feed
-data = aio.feeds("Temperature").data.last
-data.value = "adsfsdff"
-data.save
-```
-
-#### Data Deletion
-
-Values can be deleted by retrieving the data, and calling the delete method.
-
-```ruby
-require 'adafruit/io'
-
-# create an instance
-aio = Adafruit::IO::Client.new :key => 'AIO_KEY_HERE'
-
-data = aio.feeds(187).data.retrieve(288718)
-puts data.delete
-```
-
-#### Helper Methods
-
-There are a few helper methods that can make interacting with data a bit easier.
-
-##### Send
-
-You can use the `aio.feeds(id).data.send_data(value)` method to find or create the feed based on the name passed,
-and also save the value passed.
-
-```ruby
-require 'adafruit/io'
-
-# create an instance
-aio = Adafruit::IO::Client.new :key => 'AIO_KEY_HERE'
-
-data = aio.feeds("Test").data.send_data(5)
-puts data.inspect
-```
-
-##### Last
-
-You can get the last inserted value by using the `aio.feeds(id).data.last` method.
-
-```ruby
-require 'adafruit/io'
-
-# create an instance
-aio = Adafruit::IO::Client.new :key => 'AIO_KEY_HERE'
-
-data = aio.feeds(187).data.last
-puts data.inspect
-```
-
-##### Next
-
-You can get the first inserted value that has not been processed by using the `aio.feeds(id).data.next` method.
-
-```ruby
-require 'adafruit/io'
-
-# create an instance
-aio = Adafruit::IO::Client.new :key => 'AIO_KEY_HERE'
-
-data = aio.feeds(187).data.next
-puts data.inspect
-```
-
-##### Previous
-
-You can get the the last record that has been processed by using the `aio.feeds(id).data.previous` method.
-
-```ruby
-require 'adafruit/io'
-
-# create an instance
-aio = Adafruit::IO::Client.new :key => 'AIO_KEY_HERE'
-
-data = aio.feeds(187).data.previous
-puts data.inspect
-```
-
-### Groups
-
-Groups allow you to update and retrieve multiple feeds with one request. You can add feeds
-to multiple groups.
-
-#### Group Creation
-
-You can create a group by passing an object of group properties.  If you would like to find
-information about what properties are available, please visit the [Adafruit IO group API docs][5].
-
-```ruby
-require 'adafruit/io'
-
-# create an instance
-aio = Adafruit::IO::Client.new :key => 'AIO_KEY_HERE'
-
-puts aio.groups.create({:name => "Greenhouse"})
-```
-
-#### Group Retrieval
-
-You can get a list of your groups by using the `aio.groups.retrieve` method.
-
-```ruby
-require 'adafruit/io'
-
-# create an instance
-aio = Adafruit::IO::Client.new :key => 'AIO_KEY_HERE'
-
-#get all groups
-#puts aio.groups.retrieve
-```
-
-You can also get a specific group by ID, key, or name by using the `aio.groups.retrieve(id)` method.
-
-```ruby
-require 'adafruit/io'
-
-# create an instance
-aio = Adafruit::IO::Client.new :key => 'AIO_KEY_HERE'
-
-#get a single group
-group = aio.groups.retrieve("First Group")
-puts group.name
-puts group.inspect
-```
-#### Group Updating
-
-You can update [group properties][5] by retrieving a group, updating the object, and using the save method.
-
-```ruby
-require 'adafruit/io'
-
-# create an instance
-aio = Adafruit::IO::Client.new :key => '463c8fc334cfb19318eAIO_KEY_HEREa0a17c01f5b985f77f545'
-
-#get the group
-group = aio.groups.retrieve("Greenhouse")
-group.name = "Gymnasium"
-group.description = "hey hey"
-group.save
-
-group.name = "Greenhouse"
-group.description = "new description"
-group.save
-```
-
-#### Group Deletion
-
-You can delete a group by ID, key, or name by retrieving the group, and subsequently calling the delete method.
-
-```ruby
-require 'adafruit/io'
-
-# create an instance
-aio = Adafruit::IO::Client.new :key => 'AIO_KEY_HERE'
-
-group = aio.groups.retrieve("Greenhouse")
-puts group.delete
-```
+This code and more is available in [the examples/ directory](examples/).
 
 ## License
-Copyright (c) 2014 Adafruit Industries. Licensed under the MIT license.
+
+Copyright (c) 2018 Adafruit Industries. Licensed under the MIT license.
+
+[Adafruit](https://adafruit.com) invests time and resources providing this open source code. Please support Adafruit and open-source hardware by purchasing products from [Adafruit](https://adafruit.com).
 
 ## Contributing
 
 1. Fork it ( http://github.com/adafruit/io-client-ruby/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+1. Create your feature branch (`git checkout -b my-new-feature`)
+1. Write tests, write code, and run the tests (`bundle exec rspec`)
+1. Commit your changes (`git commit -am 'Add some feature'`)
+1. Push to the branch (`git push origin my-new-feature`)
+1. Create a new Pull Request
 
 [1]: https://www.ruby-lang.org
 [2]: https://io.adafruit.com

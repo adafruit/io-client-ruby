@@ -1,0 +1,17 @@
+{
+  "username": "test_username",
+  "owner": {
+    "id": 1,
+    "username": "test_username"
+  },
+  "id": 7,
+  "key": "test-group-17d3c880",
+  "name": "Test Group 17d3c880",
+  "description": null,
+  "visibility": "private",
+  "created_at": "2017-04-12T20:30:48Z",
+  "updated_at": "2017-04-12T20:30:48Z",
+  "feeds": [
+
+  ]
+}

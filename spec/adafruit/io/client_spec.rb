@@ -1,11 +1,14 @@
 require 'helper'
 
 describe Adafruit::IO::Client do
+  before do
+    @aio = Adafruit::IO::Client.new key: MY_KEY, username: 'test_username'
+    @aio.api_endpoint = TEST_URL
+  end
 
   describe "configuration" do
     it "sets a valid key" do
-      client = Adafruit::IO::Client.new :key => "random_key"
-      expect(client.instance_variable_get(:"@key")).to eq "random_key"
+      expect(@aio.key).to eq MY_KEY
     end
 
     it "sends the proper user agent" do
@@ -15,9 +18,8 @@ describe Adafruit::IO::Client do
         }).
         to_return(:status => 200, :body => "", :headers => {})
 
-      client = Adafruit::IO::Client.new :key => 'test'
       expect {
-        client.get('test')
+        @aio.get('/api/test')
       }.not_to raise_error
     end
   end

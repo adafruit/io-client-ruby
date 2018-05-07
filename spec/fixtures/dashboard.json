@@ -1,0 +1,104 @@
+{
+  "name": "string",
+  "description": "string",
+  "key": "string",
+  "blocks": [
+    {
+      "name": "string",
+      "description": "string",
+      "key": "string",
+      "visual_type": "string",
+      "column": 0,
+      "row": 0,
+      "size_x": 0,
+      "size_y": 0,
+      "block_feeds": [
+        {
+          "id": "string",
+          "feed": {
+            "id": 0,
+            "name": "string",
+            "key": "string",
+            "group": {},
+            "groups": [
+              {
+                "id": 0,
+                "name": "string",
+                "description": "string",
+                "feeds": [
+                  {}
+                ],
+                "created_at": "string",
+                "updated_at": "string"
+              }
+            ],
+            "description": "string",
+            "details": {
+              "shared_with": [
+                {}
+              ],
+              "data": {
+                "first": {},
+                "last": {},
+                "count": 0
+              }
+            },
+            "unit_type": "string",
+            "unit_symbol": "string",
+            "history": true,
+            "visibility": "private",
+            "license": "string",
+            "enabled": true,
+            "last_value": "string",
+            "status": "string",
+            "status_notify": true,
+            "status_timeout": 0,
+            "created_at": "string",
+            "updated_at": "string"
+          },
+          "group": {
+            "id": 0,
+            "name": "string",
+            "description": "string",
+            "feeds": [
+              {
+                "id": 0,
+                "name": "string",
+                "key": "string",
+                "group": {},
+                "groups": [
+                  {}
+                ],
+                "description": "string",
+                "details": {
+                  "shared_with": [
+                    {}
+                  ],
+                  "data": {
+                    "first": {},
+                    "last": {},
+                    "count": 0
+                  }
+                },
+                "unit_type": "string",
+                "unit_symbol": "string",
+                "history": true,
+                "visibility": "private",
+                "license": "string",
+                "enabled": true,
+                "last_value": "string",
+                "status": "string",
+                "status_notify": true,
+                "status_timeout": 0,
+                "created_at": "string",
+                "updated_at": "string"
+              }
+            ],
+            "created_at": "string",
+            "updated_at": "string"
+          }
+        }
+      ]
+    }
+  ]
+}
