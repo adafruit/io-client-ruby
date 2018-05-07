@@ -95,11 +95,18 @@ module Adafruit
 
       # Subscribe to the feed with the given key. Use .get to retrieve messages
       # from subscribed feeds.
-      def subscribe(key)
+      #
+      # Include the { last_value: true } option if you'd like the feed to
+      # receive the last value immediately. (like MQTT retain)
+      def subscribe(key, options={})
         raise 'client is not connected' unless @client.connected?
 
         topic = key_to_feed_topic(key)
         @client.subscribe(topic)
+
+        if options[:last_value]
+          @client.publish(topic + '/get', '')
+        end
       end
 
       def unsubscribe(key)
@@ -143,9 +150,6 @@ module Adafruit
       #     # do something
       #   end
       #
-      # NOTE: if a feed already has a value, subscribing and calling get will
-      # immediately return the most recent value for the subscription,
-      # regardless of when it was received by IO.
       def get(&block)
         @client.get(&block)
       end
