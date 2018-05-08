@@ -46,6 +46,8 @@ Still needing complete tests:
 
 - [ ] MQTT
 
+
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -60,9 +62,12 @@ Or install it yourself as:
 
     $ gem install adafruit-io
 
+
+
 ## Basic Usage
 
 Each time you use the library, you'll have to pass your [Adafruit IO Key][4] to the client.
+
 
 ```ruby
 require 'adafruit/io'
@@ -73,6 +78,7 @@ aio = Adafruit::IO::Client.new key: 'KEY'
 
 Since every API request requires a username, you can also pass a username to the client initializer to use it for every request.
 
+
 ```ruby
 require 'adafruit/io'
 
@@ -80,9 +86,44 @@ require 'adafruit/io'
 aio = Adafruit::IO::Client.new key: 'KEY', username: 'USERNAME'
 ```
 
+
+
+### Environment Variables
+
+Whenever possible, we recommend you keep your Adafruit IO API credentials out of your application code by using environment variables. All the examples
+
+[Others](http://blog.honeybadger.io/ruby-guide-environment-variables/) have written about using environment variables in Ruby, so we're not going to go into detail. We recommend the [dotenv](https://github.com/bkeepers/dotenv) gem if you're building a Ruby project.
+
+
+
+### API Response Values
+
 All return values are **plain Ruby hashes** based on the JSON response returned by the API. Most basic requests should get back a Hash with a `key` field. The key can be used in subsequent requests. API requests that return a list of objects will return a simple array of hashes. Feeds, Groups, and Dashboards all rely on the `key` value, other endpoints (Blocks, Permissions, Tokens, Triggers) use `id`.
 
+You can find the current API documentation at [https://io.adafruit.com/api/docs/](https://io.adafruit.com/api/docs/). This library implements v2 of the Adafruit IO API.
+
+
+
+### API Error Responses
+
+As of **v2.0.0**, this library raises an `Adafruit::IO::RequestError` on any non HTTP 200 status responses. Generally, this means your code should wrap API calls in `begin...rescue...end` blocks.
+
+```ruby
+require 'adafruit/io'
+
+api_key = ENV['IO_KEY']
+username = ENV['IO_USER']
+
+api = Adafruit::IO::Client.new key: api_key, username: username
+
+
+
+```
+
+## Example
+
 Here's an example of creating, adding data to, and deleting a feed.
+
 
 ```ruby
 require 'adafruit/io'
@@ -119,6 +160,7 @@ puts "read?"
 # ... get nothing
 puts api.feed(garbage['key']).inspect
 ```
+
 
 This code and more is available in [the examples/ directory](examples/).
 
