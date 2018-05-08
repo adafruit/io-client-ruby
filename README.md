@@ -179,6 +179,8 @@ Copyright (c) 2018 Adafruit Industries. Licensed under the MIT license.
 1. Push to the branch (`git push origin my-new-feature`)
 1. Create a new Pull Request
 
+If you'd like to contribute and don't know where to start, [reach out on the Adafruit IO forum](https://forums.adafruit.com/viewforum.php?f=56) or in the [adafruit-io channel on our Discord server](https://discord.gg/adafruit).
+
 [1]: https://www.ruby-lang.org
 [2]: https://io.adafruit.com
 [3]: https://learn.adafruit.com/adafruit-io/feeds
