@@ -34,14 +34,15 @@ end
 api.send_batch_data(temperature, points)
 
 #
-# Reading data
+# Reading data with pagination
 #
 # With /data API, get all data points with pagination
 all_temperatures = []
 end_time = Time.now
 
 loop do
-  results = api.data(temperature['key'], limit: 10, end_time: end_time)
+  # use a limit that's lower than the amount of data published to force pagination
+  results = api.data(temperature['key'], limit: 15, end_time: end_time)
   print '.'
 
   all_temperatures = all_temperatures.concat(results)
@@ -49,7 +50,8 @@ loop do
   break if api.last_page?
   end_time = api.pagination['start']
 
-  sleep 3
+  # pause to avoid overwhelming the rate limiter
+  sleep 2
 end
 puts
 
