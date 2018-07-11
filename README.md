@@ -14,9 +14,10 @@ Older releases are available at these links:
 
 This is a near complete rewrite and strip-down of the library intended to support V2 of the Adafruit IO API with less code, maintenance, and stress.
 
-Why rewrite? This lets us the replace the existing, custom ActiveRecord-based interface with a flat, stateless API client returning plain hashes based on the JSON returned from API.Instead of writing a bunch of Ruby to make it feel like we're in a Rails app, we're just providing hooks into the API and a thin wrapper around Faraday.
+Why rewrite? This lets us the replace the existing, custom ActiveRecord-based interface with a flat, stateless API client returning plain hashes based on the JSON returned from API. Instead of writing a bunch of Ruby to make it feel like we're in a Rails app, we're just providing hooks into the API and a thin wrapper around Faraday.
 
 The API is not very complex, code that uses it shouldn't be either.
+
 
 ## Roadmap
 
@@ -32,20 +33,10 @@ It is our goal to eventually support all API V2 methods, but that will happen in
 - [x] Activities `2.0.0.beta.5`
 - [x] Permissions `2.0.0.beta.5`
 - [x] Triggers `2.0.0.beta.6`
-- [x] Feeds `2.0.0`
-- [x] Data `2.0.0`
-- [x] Tokens `2.0.0`
-- [x] Blocks `2.0.0`
-- [x] Dashboards `2.0.0`
-- [x] Groups `2.0.0`
-- [x] Activities `2.0.0`
-- [x] Permissions `2.0.0`
-- [x] Triggers `2.0.0`
 
 Still needing complete tests:
 
 - [ ] MQTT
-
 
 
 ## Installation
