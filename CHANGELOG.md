@@ -1,3 +1,7 @@
+UNRELEASED
+----
+- bump json to 2.3.1
+
 2.0.0
 ----
 - initial API v2 client release
