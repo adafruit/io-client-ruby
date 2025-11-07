@@ -25,6 +25,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "activesupport",  "~> 8.0"
   spec.add_dependency "mqtt", "~> 0.7"
 
-  spec.add_development_dependency "bundler", "~> 2.6"
+  spec.add_development_dependency "bundler", "~> 2.7"
   spec.add_development_dependency "rake", "~> 13.2"
 end
