@@ -1,8 +1,6 @@
 require 'json'
 
 require 'faraday'
-require 'faraday_middleware'
-require 'faraday_middleware/response/mashify'
 
 require 'adafruit/io/arguments'
 require 'adafruit/io/configurable'
@@ -78,8 +76,7 @@ module Adafruit
             c.response :logger
           end
 
-          c.use :instrumentation
-          c.adapter Faraday.default_adapter
+          c.response :json
         end
       end
 
