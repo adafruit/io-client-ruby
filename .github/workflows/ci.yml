@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby:
+          - '3.2'
+          - '3.3'
+          - '3.4'
+
+    name: Ruby ${{ matrix.ruby }} Tests
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby }}
+        bundler-cache: true
+
+    - name: Display Ruby version
+      run: ruby -v
+
+    - name: Display Bundler version
+      run: bundle -v
+
+    - name: Install dependencies
+      run: bundle install --jobs 4 --retry 3
+
+    - name: Run tests
+      run: bundle exec rspec
+
+    - name: Check code coverage (Ruby 3.3 only)
+      if: matrix.ruby == '3.3'
+      run: |
+        if [ -f coverage/.last_run.json ]; then
+          echo "Code coverage report generated"
+          cat coverage/.last_run.json
+        fi
