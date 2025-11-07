@@ -42,8 +42,8 @@ jobs:
     - name: Run tests
       run: bundle exec rspec
 
-    - name: Check code coverage (Ruby 3.3 only)
-      if: matrix.ruby == '3.3'
+    - name: Check code coverage (Ruby 3.4 only)
+      if: matrix.ruby == '3.4'
       run: |
         if [ -f coverage/.last_run.json ]; then
           echo "Code coverage report generated"
