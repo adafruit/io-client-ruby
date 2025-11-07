@@ -14,10 +14,5 @@ group :test do
   gem 'dotenv', '~> 2.1.1'
 end
 
-platforms :rbx do
-  gem 'psych'
-  gem 'rubysl', '~> 2.0'
-end
-
 # Specify your gem's dependencies in adafruit-io.gemspec
 gemspec

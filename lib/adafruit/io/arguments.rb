@@ -46,7 +46,7 @@ module Adafruit
         record_or_id = arguments.shift
         return nil if record_or_id.nil?
 
-        if record_or_id.is_a?(String) || record_or_id.is_a?(Fixnum)
+        if record_or_id.is_a?(String) || record_or_id.is_a?(Integer)
           record_or_id
         elsif record_or_id.is_a?(Hash) && (record_or_id.has_key?('id') || record_or_id.has_key?(:id))
           record_or_id['id'] || record_or_id[:id]
