@@ -28,6 +28,7 @@ jobs:
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby }}
+        bundler: latest
         bundler-cache: true
 
     - name: Display Ruby version
