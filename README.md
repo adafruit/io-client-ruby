@@ -1,4 +1,4 @@
-![Build Status](https://travis-ci.org/adafruit/io-client-ruby.svg?branch=master)
+![CI](https://github.com/adafruit/io-client-ruby/workflows/CI/badge.svg)
 
 # adafruit-io
 
