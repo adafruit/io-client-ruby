@@ -20,11 +20,11 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
   spec.licenses = ['MIT']
 
-  spec.add_dependency "faraday", "~> 0.8"
-  spec.add_dependency "faraday_middleware", "~> 0.9"
-  spec.add_dependency "activesupport",  "~> 4.2"
-  spec.add_dependency "mqtt", "~> 0.4"
+  spec.add_dependency "faraday", "~> 2.14"
+  spec.add_dependency "faraday-multipart", "~> 1.0"
+  spec.add_dependency "activesupport",  "~> 8.0"
+  spec.add_dependency "mqtt", "~> 0.7"
 
-  spec.add_development_dependency "bundler", "~> 2.2.10"
-  spec.add_development_dependency "rake", "~> 12.3.3"
+  spec.add_development_dependency "bundler", "~> 2.7"
+  spec.add_development_dependency "rake", "~> 13.2"
 end

@@ -1,6 +1,6 @@
-UNRELEASED
+3.0.0
 ----
-- bump json to 2.3.1
+- update dependencies for ruby 3.x, potentially breaking older ruby versions
 
 2.0.0
 ----

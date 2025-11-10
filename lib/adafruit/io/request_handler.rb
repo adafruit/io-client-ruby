@@ -70,7 +70,7 @@ module Adafruit
 
       def handle_get(url, options = {})
         response = conn.get do |req|
-          req.url URI::encode(url)
+          req.url url
           options.each do |k,v|
             req.params[k] = v
           end
@@ -87,7 +87,7 @@ module Adafruit
 
       def handle_post(url, data, options = {})
         response = conn.post do |req|
-          req.url URI::encode(url)
+          req.url url
           req.body = data
         end
 
@@ -100,7 +100,7 @@ module Adafruit
 
       def handle_put(url, data, options = {})
         response = conn.put do |req|
-          req.url URI::encode(url)
+          req.url url
           req.body = data
         end
 
@@ -113,7 +113,7 @@ module Adafruit
 
       def handle_delete(url, options = {})
         response = conn.delete do |req|
-          req.url URI::encode(url)
+          req.url url
         end
 
         if response.status < 200 || response.status > 299

@@ -1,22 +1,17 @@
 source 'https://rubygems.org'
 
 group :test do
-  gem 'coveralls', :require => false
-  gem 'json', '~> 2.3.1', :platforms => [:ruby_18, :jruby]
-  gem 'mime-types', '< 2.0.0'
-  gem 'netrc', '~> 0.7.7'
-  gem 'rb-fsevent', '~> 0.9'
-  gem 'rspec', '~> 3.4.0'
-  gem 'simplecov', :require => false
-  gem 'test-queue', '~> 0.1.3'
-  gem 'vcr', '~> 2.4.0'
-  gem 'webmock', '~> 1.9.0'
-  gem 'dotenv', '~> 2.1.1'
-end
-
-platforms :rbx do
-  gem 'psych'
-  gem 'rubysl', '~> 2.0'
+  gem 'coveralls_reborn', '~> 0.29', :require => false
+  gem 'json', '~> 2.3', :platforms => [:ruby_18, :jruby]
+  gem 'mime-types', '~> 3.7'
+  gem 'netrc', '~> 0.11'
+  gem 'rb-fsevent', '~> 0.11'
+  gem 'rspec', '~> 3.13'
+  gem 'simplecov', '~> 0.22', :require => false
+  gem 'test-queue', '~> 0.11'
+  gem 'vcr', '~> 6.3'
+  gem 'webmock', '~> 3.26'
+  gem 'dotenv', '~> 3.1'
 end
 
 # Specify your gem's dependencies in adafruit-io.gemspec
