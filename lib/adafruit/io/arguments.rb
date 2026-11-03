@@ -8,7 +8,9 @@ module Adafruit
         username = @username
 
         if args.last.is_a?(Hash) && args.last.has_key?(:username)
-          username = args.last.delete(:username)
+          options = args.last.dup
+          username = options.delete(:username)
+          args = args[0...-1] + [options]
         end
 
         if username.nil?
