@@ -1,5 +1,3 @@
-require 'open-uri'
-
 module Adafruit
   module IO
     class RequestError < StandardError
