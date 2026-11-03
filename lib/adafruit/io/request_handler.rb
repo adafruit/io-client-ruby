@@ -13,7 +13,7 @@ module Adafruit
 
       attr_reader :last_response, :pagination
 
-      def request(method, url, data = nil, options = nil)
+      def request(method, url, data = nil)
         @last_response = send(method, url, data)
       end
 
@@ -21,15 +21,15 @@ module Adafruit
         request(:handle_get, url, options)
       end
 
-      def post(url, data, options = {})
-        request :handle_post, url, data, options
+      def post(url, data)
+        request :handle_post, url, data
       end
 
-      def put(url, data, options = {})
-        request :handle_put, url, data, options
+      def put(url, data)
+        request :handle_put, url, data
       end
 
-      def delete(url, options = {})
+      def delete(url)
         request :handle_delete, url
       end
 
@@ -81,7 +81,7 @@ module Adafruit
         end
       end
 
-      def handle_post(url, data, options = {})
+      def handle_post(url, data)
         response = conn.post do |req|
           req.url url
           req.body = data
@@ -94,7 +94,7 @@ module Adafruit
         end
       end
 
-      def handle_put(url, data, options = {})
+      def handle_put(url, data)
         response = conn.put do |req|
           req.url url
           req.body = data
@@ -107,7 +107,7 @@ module Adafruit
         end
       end
 
-      def handle_delete(url, options = {})
+      def handle_delete(url, _data = nil)
         response = conn.delete do |req|
           req.url url
         end
