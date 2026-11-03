@@ -21,8 +21,6 @@ Gem::Specification.new do |spec|
   spec.licenses = ['MIT']
 
   spec.add_dependency "faraday", "~> 2.14"
-  spec.add_dependency "faraday-multipart", "~> 1.0"
-  spec.add_dependency "activesupport",  "~> 8.0"
   spec.add_dependency "mqtt", "~> 0.7"
 
   spec.add_development_dependency "rake", "~> 13.2"
