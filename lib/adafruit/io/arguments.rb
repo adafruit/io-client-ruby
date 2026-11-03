@@ -34,7 +34,8 @@ module Adafruit
           record_or_key
         elsif record_or_key.is_a?(Hash) && (record_or_key.has_key?('key') || record_or_key.has_key?(:key))
           record_or_key['key'] || record_or_key[:key]
-        elsif record_or_key.respond_to?(:key)
+        elsif !record_or_key.is_a?(Hash) && record_or_key.respond_to?(:key)
+          # Hash#key(value) exists, so plain hashes must not land here
           record_or_key.key
         else
           raise 'unrecognized object or key value in arguments'
