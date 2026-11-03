@@ -1,3 +1,25 @@
+4.0.0
+----
+Breaking changes:
+- require ruby 3.3 or newer
+- remove activesupport and faraday-multipart dependencies
+- all errors now inherit from `Adafruit::IO::Error`. argument errors raise `Adafruit::IO::Arguments::ArgumentError` and mqtt "not connected" errors raise `Adafruit::IO::Error` instead of `RuntimeError`
+- delete requests raise `Adafruit::IO::RequestError` on 404 instead of returning nil
+- `post`, `put`, and `delete` no longer accept an unused `options` argument
+- `create_permission` requires a hash of permission attributes
+- permission resource types must be exactly `feed`, `group`, or `dashboard`
+
+Fixes:
+- mqtt `publish` and `publish_group` no longer crash when given a location
+- `create_token` no longer crashes
+- `last_page?` returns true when there are no pagination headers, and pagination resets on every request
+- request attributes accept string keys as well as symbols
+- clear error when a hash without a key is passed where a key is expected
+- `update_block` sends attributes given in the same hash as `dashboard_key` and `key`
+- debug mode no longer prints JSON parse errors on every response
+- passing `username:` to a method no longer modifies the caller's hash
+- reuse the faraday connection between requests
+
 3.0.0
 ----
 - update dependencies for ruby 3.x, potentially breaking older ruby versions
