@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    adafruit-io (3.0.0)
+    adafruit-io (4.0.0)
       faraday (~> 2.14)
       mqtt (~> 0.7)
 
@@ -146,7 +146,7 @@ DEPENDENCIES
   webmock (~> 3.26)
 
 CHECKSUMS
-  adafruit-io (3.0.0)
+  adafruit-io (4.0.0)
   addressable (2.9.2) sha256=9117c7e7d6ee07230e75ce41fb9401ae55354dc654fcd0e862ba41d539e9a610
   bigdecimal (4.1.3) sha256=61ebe1e5e559bdc3cc6f2c0ee7f427321fc838f59611c294356eb04d6e21cf66
   coveralls_reborn (0.29.1) sha256=60a3e0db8e9043daa3f0b2c4b4e753e3e064f4fe5ed643954e58147ebb3555dd
