@@ -1,3 +1,5 @@
+require 'time'
+
 module Adafruit
   module IO
     class Client

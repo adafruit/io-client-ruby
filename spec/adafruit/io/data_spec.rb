@@ -36,5 +36,18 @@ RSpec.describe Adafruit::IO::Client do
         expect(data.size).to eq(3)
       end
     end
+
+    context 'send_data' do
+      it 'sends a Time created_at as utc iso8601' do
+        created_at = Time.new(2026, 1, 2, 3, 4, 5, '-05:00')
+        request = stub_request(:post, URI.join(TEST_URL, "/#{api_path('feeds', 'f', 'data')}"))
+          .with(body: { value: 1, created_at: '2026-01-02T08:04:05Z' }.to_json)
+          .to_return(status: 200, body: '{}', headers: { 'Content-Type' => 'application/json' })
+
+        @aio.send_data('f', 1, created_at)
+
+        expect(request).to have_been_requested
+      end
+    end
   end
 end
