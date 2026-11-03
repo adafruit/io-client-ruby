@@ -92,5 +92,25 @@ RSpec.describe Adafruit::IO::Client do
     expect(result['name']).to eq updated_record['name']
   end
 
+  it 'sends update attributes given in the same hash' do
+    request = stub_request(:put, URI.join(TEST_URL, "/#{api_path('dashboards', 'db', 'blocks', 1)}"))
+      .with(body: { name: 'new name', column: 2 }.to_json)
+      .to_return(status: 200, body: mock_block_json, headers: { 'Content-Type' => 'application/json' })
+
+    @aio.update_block(dashboard_key: 'db', key: 1, name: 'new name', column: 2)
+
+    expect(request).to have_been_requested
+  end
+
+  it 'sends update attributes given as a second hash' do
+    request = stub_request(:put, URI.join(TEST_URL, "/#{api_path('dashboards', 'db', 'blocks', 1)}"))
+      .with(body: { name: 'new name' }.to_json)
+      .to_return(status: 200, body: mock_block_json, headers: { 'Content-Type' => 'application/json' })
+
+    @aio.update_block({ dashboard_key: 'db', key: 1 }, { name: 'new name' })
+
+    expect(request).to have_been_requested
+  end
+
 end
 

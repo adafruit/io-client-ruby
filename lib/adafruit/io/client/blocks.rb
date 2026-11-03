@@ -38,12 +38,17 @@ module Adafruit
           delete api_url(username, 'dashboards', dashboard_key, 'blocks', block_id)
         end
 
-        # Update a block
+        # Update a block. Attributes can be given in the same hash as
+        # dashboard_key and key, or as a separate second hash:
+        #
+        #   client.update_block(dashboard_key: 'db', key: 1, name: 'new')
+        #   client.update_block({ dashboard_key: 'db', key: 1 }, { name: 'new' })
         def update_block(*args)
           username, arguments = extract_username(args)
           dashboard_key = require_argument(arguments, :dashboard_key)
+          options = arguments.first
           block_id = get_key_from_arguments(arguments)
-          block_attrs = valid_block_attrs(arguments)
+          block_attrs = valid_block_attrs(arguments.empty? ? [options] : arguments)
 
           put api_url(username, 'dashboards', dashboard_key, 'blocks', block_id), block_attrs
         end
