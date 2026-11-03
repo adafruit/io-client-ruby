@@ -44,11 +44,12 @@ module Adafruit
       def update_pagination(response)
         @pagination = nil
 
-        if pagination_keys = response.headers.keys.grep(/x-pagination-/i)
-          @pagination = {}
-          pagination_keys.each do |k|
-            @pagination[k.gsub(/x-pagination-/i, '')] = response.headers[k]
-          end
+        pagination_keys = response.headers.keys.grep(/x-pagination-/i)
+        return if pagination_keys.empty?
+
+        @pagination = {}
+        pagination_keys.each do |k|
+          @pagination[k.gsub(/x-pagination-/i, '')] = response.headers[k]
         end
       end
 
