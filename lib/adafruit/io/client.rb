@@ -36,9 +36,7 @@ module Adafruit
       #
       # @return [String]
       def inspect
-        inspected = super
-        inspected = inspected.gsub! @key, "#{@key[0..3]}#{'*' * (@key.size - 3)}" if @key
-        inspected
+        "#<#{self.class.name} username=#{@username.inspect} api_endpoint=#{api_endpoint.inspect} key=#{masked_key.inspect}>"
       end
 
       def last_response
@@ -57,6 +55,13 @@ module Adafruit
       include Adafruit::IO::Client::User
 
       private
+
+      def masked_key
+        return nil if @key.nil?
+        return '*' * @key.size if @key.size <= 4
+
+        "#{@key[0..3]}#{'*' * (@key.size - 4)}"
+      end
 
       def conn
         settings = [api_endpoint, @key, @debug]

@@ -24,6 +24,29 @@ describe Adafruit::IO::Client do
     end
   end
 
+  describe "#inspect" do
+    it "shows username and endpoint with a masked key" do
+      client = Adafruit::IO::Client.new(key: 'abcdefghijkl', username: 'test_username')
+
+      expect(client.inspect).to eq(
+        '#<Adafruit::IO::Client username="test_username" api_endpoint="https://io.adafruit.com" key="abcd********">'
+      )
+    end
+
+    it "fully masks short keys" do
+      expect(Adafruit::IO::Client.new(key: 'abc').inspect).to include('key="***"')
+    end
+
+    it "does not include the connection after a request" do
+      stub_request(:get, /api\/test/).to_return(status: 200, body: "")
+      client = Adafruit::IO::Client.new(key: 'abcdefghijkl', username: 'test_username')
+      client.get('/api/test')
+
+      expect(client.inspect).not_to include('abcdefghijkl')
+      expect(client.inspect).not_to include('Faraday')
+    end
+  end
+
   describe "connection" do
     before do
       stub_request(:get, /io\.adafruit\.test|other\.test/).to_return(status: 200, body: "")

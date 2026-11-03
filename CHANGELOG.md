@@ -19,6 +19,7 @@ Fixes:
 - debug mode no longer prints JSON parse errors on every response
 - passing `username:` to a method no longer modifies the caller's hash
 - reuse the faraday connection between requests
+- `Client#inspect` shows only the username, endpoint, and a masked key
 
 3.0.0
 ----
