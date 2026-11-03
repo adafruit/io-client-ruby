@@ -51,19 +51,16 @@ module Adafruit
         end
       end
 
+      # Faraday's :json middleware already parses responses with a JSON
+      # content type. Only try to parse bodies it left as strings.
       def parsed_response(response)
-        if response.respond_to?(:data)
-          response.data
-        else
-          begin
-            json = JSON.parse(response.body)
-          rescue => ex
-            if @debug
-              puts "ERROR PARSING JSON: #{ex.message}"
-              puts ex.backtrace[0..5].join("\n")
-            end
-            response.body
-          end
+        body = response.body
+        return body unless body.is_a?(String)
+
+        begin
+          JSON.parse(body)
+        rescue JSON::ParserError
+          body
         end
       end
 
