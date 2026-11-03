@@ -1,4 +1,5 @@
 require 'mqtt'
+require 'adafruit/io/errors'
 
 #
 # Adafruit::IO::MQTT provides a simple Adafruit IO aware wrapper around the
@@ -65,7 +66,7 @@ module Adafruit
 
       # Publish value to feed with given key
       def publish(key, value, location={})
-        raise 'client is not connected' unless @client.connected?
+        raise Adafruit::IO::Error.new('client is not connected') unless @client.connected?
 
         topic = key_to_feed_topic(key)
         location = indifferent_keys(location)
@@ -83,8 +84,8 @@ module Adafruit
       #   location data for this publish event.
       #
       def publish_group(key, values, location={})
-        raise 'client is not connected' unless @client.connected?
-        raise 'values must be a hash' unless values.is_a?(Hash)
+        raise Adafruit::IO::Error.new('client is not connected') unless @client.connected?
+        raise Adafruit::IO::Arguments::ArgumentError.new('values must be a hash') unless values.is_a?(Hash)
 
         topic = key_to_group_topic(key, false)
         location = indifferent_keys(location)
@@ -99,7 +100,7 @@ module Adafruit
       # Include the { last_value: true } option if you'd like the feed to
       # receive the last value immediately. (like MQTT retain)
       def subscribe(key, options={})
-        raise 'client is not connected' unless @client.connected?
+        raise Adafruit::IO::Error.new('client is not connected') unless @client.connected?
 
         topic = key_to_feed_topic(key)
         @client.subscribe(topic)
@@ -110,7 +111,7 @@ module Adafruit
       end
 
       def unsubscribe(key)
-        raise 'client is not connected' unless @client.connected?
+        raise Adafruit::IO::Error.new('client is not connected') unless @client.connected?
 
         topic = key_to_feed_topic(key)
         @client.unsubscribe(topic)
@@ -123,7 +124,7 @@ module Adafruit
       # JSON object whose keys are feed keys and whose values are the last
       # value received for that feed.
       def subscribe_group(key)
-        raise 'client is not connected' unless @client.connected?
+        raise Adafruit::IO::Error.new('client is not connected') unless @client.connected?
 
         topic = key_to_group_topic(key)
         @client.subscribe(topic)

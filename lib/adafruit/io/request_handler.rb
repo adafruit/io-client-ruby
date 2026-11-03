@@ -1,14 +1,7 @@
+require 'adafruit/io/errors'
+
 module Adafruit
   module IO
-    class RequestError < StandardError
-      attr_reader :response
-
-      def initialize(message, response)
-        super(message)
-        @response = response
-      end
-    end
-
     module RequestHandler
 
       attr_reader :last_response, :pagination

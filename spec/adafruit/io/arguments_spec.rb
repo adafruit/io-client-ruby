@@ -21,7 +21,7 @@ RSpec.describe Adafruit::IO::Arguments do
     it 'raises a clear error for a hash without a key' do
       expect {
         args.get_key_from_arguments([{ name: 'no key here' }])
-      }.to raise_error(RuntimeError, /unrecognized object or key value/)
+      }.to raise_error(Adafruit::IO::Arguments::ArgumentError, /unrecognized object or key value/)
     end
   end
 
@@ -29,7 +29,7 @@ RSpec.describe Adafruit::IO::Arguments do
     it 'raises a clear error for a hash without an id' do
       expect {
         args.get_id_from_arguments([{ name: 'no id here' }])
-      }.to raise_error(RuntimeError, /unrecognized object or id value/)
+      }.to raise_error(Adafruit::IO::Arguments::ArgumentError, /unrecognized object or id value/)
     end
   end
 end

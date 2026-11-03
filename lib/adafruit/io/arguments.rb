@@ -1,8 +1,8 @@
+require 'adafruit/io/errors'
+
 module Adafruit
   module IO
     module Arguments
-      class ArgumentError < StandardError; end
-
       # Allows us to give a username during client initialization or with a specific method.
       def extract_username(args)
         username = @username
@@ -12,7 +12,7 @@ module Adafruit
         end
 
         if username.nil?
-          raise "cannot make request when username is nil"
+          raise ArgumentError.new("cannot make request when username is nil")
         end
 
         [ username, args ]
@@ -38,7 +38,7 @@ module Adafruit
           # Hash#key(value) exists, so plain hashes must not land here
           record_or_key.key
         else
-          raise 'unrecognized object or key value in arguments'
+          raise ArgumentError.new('unrecognized object or key value in arguments')
         end
       end
 
@@ -54,7 +54,7 @@ module Adafruit
         elsif record_or_id.respond_to?(:id)
           record_or_id.id
         else
-          raise 'unrecognized object or id value in arguments'
+          raise ArgumentError.new('unrecognized object or id value in arguments')
         end
       end
 
