@@ -35,29 +35,27 @@ RSpec.describe Adafruit::IO::Client do
   end
 
   it 'creates a new block' do
-    mock_response(
-      path: api_path('dashboards', 'db', 'blocks'),
-      method: :post,
-      status: 200,
-      body: mock_block_json,
-    )
+    block_attrs = {
+      name: "block",
+      properties: { },
+      visual_type: "color_picker",
+      column: 0,
+      row: 0,
+      size_x: 0,
+      size_y: 0,
+      block_feeds: [{
+        feed_id: "1",
+        group_id: "1"
+      }]
+    }
 
-    block = @aio.create_block({
-      dashboard_key: 'db',
-      block: {
-        name: "block",
-        properties: { },
-        visual_type: "color",
-        column: 0,
-        row: 0,
-        size_x: 0,
-        size_y: 0,
-        block_feeds: [{
-          feed_id: "1",
-          group_id: "1"
-        }]
-      }
-    })
+    request = stub_request(:post, URI.join(TEST_URL, "/#{api_path('dashboards', 'db', 'blocks')}"))
+      .with(body: block_attrs.to_json)
+      .to_return(status: 200, body: mock_block_json, headers: { 'Content-Type' => 'application/json' })
+
+    block = @aio.create_block(block_attrs.merge(dashboard_key: 'db'))
+
+    expect(request).to have_been_requested
     expect(block).not_to be_empty
   end
 
