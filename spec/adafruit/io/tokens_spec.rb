@@ -32,5 +32,18 @@ RSpec.describe Adafruit::IO::Client do
     expect(tokens).not_to be_empty
   end
 
+  it 'creates a token' do
+    mock_response(
+      path: api_path('tokens'),
+      method: :post,
+      status: 200,
+      with_request_body: true,
+      body: fixture_json('token')
+    )
+
+    token = @aio.create_token
+    expect(token['id']).to eq JSON.parse(fixture_json('token'))['id']
+  end
+
 end
 
