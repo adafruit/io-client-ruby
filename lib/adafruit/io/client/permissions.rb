@@ -2,7 +2,7 @@ module Adafruit
   module IO
     class Client
       module Permissions
-        VALID_TYPES = %(feed group dashboard)
+        VALID_TYPES = %w(feed group dashboard).freeze
 
         # Get all permissions for a resource.
         #
