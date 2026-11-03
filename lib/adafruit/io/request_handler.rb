@@ -7,6 +7,7 @@ module Adafruit
       attr_reader :last_response, :pagination
 
       def request(method, url, data = nil)
+        @pagination = nil
         @last_response = send(method, url, data)
       end
 

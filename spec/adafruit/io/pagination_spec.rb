@@ -36,5 +36,16 @@ RSpec.describe Adafruit::IO::Client do
 
       expect(@aio.last_page?).to be false
     end
+
+    it 'resets after a non-GET request' do
+      stub_feeds('X-Pagination-Limit' => '1000', 'X-Pagination-Count' => '1000')
+      stub_request(:post, URI.join(TEST_URL, "/#{api_path('feeds')}")).to_return(status: 200, body: mock_feed_json)
+
+      @aio.feeds
+      @aio.create_feed(name: 'x')
+
+      expect(@aio.pagination).to be_nil
+      expect(@aio.last_page?).to be true
+    end
   end
 end
