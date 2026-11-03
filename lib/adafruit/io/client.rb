@@ -59,13 +59,11 @@ module Adafruit
       private
 
       def conn
-        if api_endpoint
-          url = api_endpoint
-        else
-          url = 'https://io.adafruit.com'
-        end
+        settings = [api_endpoint, @key, @debug]
+        return @conn if @conn && @conn_settings == settings
 
-        Faraday.new(:url => url) do |c|
+        @conn_settings = settings
+        @conn = Faraday.new(:url => api_endpoint) do |c|
           c.headers['X-AIO-Key'] = @key
           c.headers['Accept'] = 'application/json'
           c.headers['User-Agent'] = "AdafruitIO-Ruby/#{VERSION} (#{RUBY_PLATFORM})"
