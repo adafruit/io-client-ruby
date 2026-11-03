@@ -57,14 +57,19 @@ module Adafruit
         end
       end
 
-      # Get a filtered list of parameters from the next argument
+      # Get a filtered list of parameters from the next argument. Accepts
+      # either symbol or string keys.
       def get_query_from_arguments(arguments, params)
         query = {}
         options = arguments.shift
         return query if options.nil?
 
         params.each do |param|
-          query[param] = options[param.to_sym] if options.has_key?(param.to_sym)
+          if options.has_key?(param.to_sym)
+            query[param] = options[param.to_sym]
+          elsif options.has_key?(param.to_s)
+            query[param] = options[param.to_s]
+          end
         end
         query
       end
