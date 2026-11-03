@@ -152,7 +152,9 @@ RSpec.describe Adafruit::IO::Client do
           body: fixture_json('not_found_error'),
         )
 
-        expect(@aio.delete_feed(mock_feed['key'])).to be_nil
+        expect {
+          @aio.delete_feed(mock_feed['key'])
+        }.to raise_error(Adafruit::IO::RequestError) { |e| expect(e.response.status).to eq 404 }
       end
 
     end
