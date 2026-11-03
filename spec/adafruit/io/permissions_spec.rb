@@ -67,4 +67,10 @@ RSpec.describe Adafruit::IO::Client do
       }.to raise_error(Adafruit::IO::Arguments::ArgumentError, /resource type/)
     end
   end
+
+  it 'requires attributes when creating a permission' do
+    expect {
+      @aio.create_permission('feed', 'key')
+    }.to raise_error(Adafruit::IO::Arguments::ArgumentError, /Hash of permission attributes/)
+  end
 end
