@@ -176,7 +176,7 @@ module Adafruit
       def payload_from_value_with_location(value, location)
         payload = { value: value.to_s }
 
-        if location.has_key?('lat') && location.has_key?['lon']
+        if location.has_key?('lat') && location.has_key?('lon')
           %w(lat lon ele).each do |f|
             payload[f] = location[f]
           end
@@ -188,7 +188,7 @@ module Adafruit
       def payload_from_values_with_location(values, location)
         payload = { feeds: values }
 
-        if location.has_key?('lat') && location.has_key?['lon']
+        if location.has_key?('lat') && location.has_key?('lon')
           payload[:location] = {}
 
           %w(lat lon ele).each do |f|
