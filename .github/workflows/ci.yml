@@ -17,6 +17,7 @@ jobs:
           - '3.2'
           - '3.3'
           - '3.4'
+          - '4.0'
 
     name: Ruby ${{ matrix.ruby }} Tests
 
@@ -36,9 +37,6 @@ jobs:
 
     - name: Display Bundler version
       run: bundle -v
-
-    - name: Install dependencies
-      run: bundle install --jobs 4 --retry 3
 
     - name: Run tests
       run: bundle exec rspec
