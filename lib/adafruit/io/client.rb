@@ -36,9 +36,7 @@ module Adafruit
       #
       # @return [String]
       def inspect
-        inspected = super
-        inspected = inspected.gsub! @key, "#{@key[0..3]}#{'*' * (@key.size - 3)}" if @key
-        inspected
+        "#<#{self.class.name} username=#{@username.inspect} api_endpoint=#{api_endpoint.inspect} key=#{masked_key.inspect}>"
       end
 
       def last_response
@@ -58,14 +56,19 @@ module Adafruit
 
       private
 
-      def conn
-        if api_endpoint
-          url = api_endpoint
-        else
-          url = 'https://io.adafruit.com'
-        end
+      def masked_key
+        return nil if @key.nil?
+        return '*' * @key.size if @key.size <= 4
 
-        Faraday.new(:url => url) do |c|
+        "#{@key[0..3]}#{'*' * (@key.size - 4)}"
+      end
+
+      def conn
+        settings = [api_endpoint, @key, @debug]
+        return @conn if @conn && @conn_settings == settings
+
+        @conn_settings = settings
+        @conn = Faraday.new(:url => api_endpoint) do |c|
           c.headers['X-AIO-Key'] = @key
           c.headers['Accept'] = 'application/json'
           c.headers['User-Agent'] = "AdafruitIO-Ruby/#{VERSION} (#{RUBY_PLATFORM})"

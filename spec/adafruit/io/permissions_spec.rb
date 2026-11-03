@@ -59,6 +59,18 @@ RSpec.describe Adafruit::IO::Client do
     end
 
   end
+
+  ['eed', 'group dash', '', 'feeds'].each do |bad_type|
+    it "rejects invalid resource type #{bad_type.inspect}" do
+      expect {
+        @aio.permissions(bad_type, 'key')
+      }.to raise_error(Adafruit::IO::Arguments::ArgumentError, /resource type/)
+    end
+  end
+
+  it 'requires attributes when creating a permission' do
+    expect {
+      @aio.create_permission('feed', 'key')
+    }.to raise_error(Adafruit::IO::Arguments::ArgumentError, /Hash of permission attributes/)
+  end
 end
-
-

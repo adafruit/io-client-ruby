@@ -46,6 +46,16 @@ RSpec.describe Adafruit::IO::Client do
         expect(feed['name']).to eq mock_feed['name']
         expect(feed.keys.sort).to eq FEED_PROPS_v2_0_0.sort
       end
+
+      it 'sends attributes given with string keys' do
+        request = stub_request(:post, URI.join(TEST_URL, "/#{api_path('feeds')}"))
+          .with(body: { name: 'Temp', description: 'outside' }.to_json)
+          .to_return(status: 200, body: mock_feed_json, headers: { 'Content-Type' => 'application/json' })
+
+        @aio.create_feed('name' => 'Temp', 'description' => 'outside')
+
+        expect(request).to have_been_requested
+      end
     end
   end
 
@@ -142,7 +152,9 @@ RSpec.describe Adafruit::IO::Client do
           body: fixture_json('not_found_error'),
         )
 
-        expect(@aio.delete_feed(mock_feed['key'])).to be_nil
+        expect {
+          @aio.delete_feed(mock_feed['key'])
+        }.to raise_error(Adafruit::IO::RequestError) { |e| expect(e.response.status).to eq 404 }
       end
 
     end

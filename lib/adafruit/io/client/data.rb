@@ -1,3 +1,5 @@
+require 'time'
+
 module Adafruit
   module IO
     class Client
@@ -53,7 +55,7 @@ module Adafruit
           values = arguments.shift
 
           if values.nil? || !values.is_a?(Array)
-            raise "expected batch values to be an array"
+            raise Adafruit::IO::Arguments::ArgumentError.new("expected batch values to be an array")
           end
 
           if !values.first.is_a?(Hash)

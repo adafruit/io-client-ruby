@@ -20,9 +20,9 @@ module Adafruit
 
         # Create a token. No attributes need to be passed in.
         def create_token(*args)
-          username, arguments = extract_username(args)
+          username, _ = extract_username(args)
 
-          post api_url(username, 'tokens')
+          post api_url(username, 'tokens'), {}
         end
 
         def delete_token(*args)

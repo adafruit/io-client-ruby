@@ -1,21 +1,13 @@
-require 'open-uri'
+require 'adafruit/io/errors'
 
 module Adafruit
   module IO
-    class RequestError < StandardError
-      attr_reader :response
-
-      def initialize(message, response)
-        super(message)
-        @response = response
-      end
-    end
-
     module RequestHandler
 
       attr_reader :last_response, :pagination
 
-      def request(method, url, data = nil, options = nil)
+      def request(method, url, data = nil)
+        @pagination = nil
         @last_response = send(method, url, data)
       end
 
@@ -23,15 +15,15 @@ module Adafruit
         request(:handle_get, url, options)
       end
 
-      def post(url, data, options = {})
-        request :handle_post, url, data, options
+      def post(url, data)
+        request :handle_post, url, data
       end
 
-      def put(url, data, options = {})
-        request :handle_put, url, data, options
+      def put(url, data)
+        request :handle_put, url, data
       end
 
-      def delete(url, options = {})
+      def delete(url)
         request :handle_delete, url
       end
 
@@ -44,27 +36,25 @@ module Adafruit
       def update_pagination(response)
         @pagination = nil
 
-        if pagination_keys = response.headers.keys.grep(/x-pagination-/i)
-          @pagination = {}
-          pagination_keys.each do |k|
-            @pagination[k.gsub(/x-pagination-/i, '')] = response.headers[k]
-          end
+        pagination_keys = response.headers.keys.grep(/x-pagination-/i)
+        return if pagination_keys.empty?
+
+        @pagination = {}
+        pagination_keys.each do |k|
+          @pagination[k.gsub(/x-pagination-/i, '')] = response.headers[k]
         end
       end
 
+      # Faraday's :json middleware already parses responses with a JSON
+      # content type. Only try to parse bodies it left as strings.
       def parsed_response(response)
-        if response.respond_to?(:data)
-          response.data
-        else
-          begin
-            json = JSON.parse(response.body)
-          rescue => ex
-            if @debug
-              puts "ERROR PARSING JSON: #{ex.message}"
-              puts ex.backtrace[0..5].join("\n")
-            end
-            response.body
-          end
+        body = response.body
+        return body unless body.is_a?(String)
+
+        begin
+          JSON.parse(body)
+        rescue JSON::ParserError
+          body
         end
       end
 
@@ -85,7 +75,7 @@ module Adafruit
         end
       end
 
-      def handle_post(url, data, options = {})
+      def handle_post(url, data)
         response = conn.post do |req|
           req.url url
           req.body = data
@@ -98,7 +88,7 @@ module Adafruit
         end
       end
 
-      def handle_put(url, data, options = {})
+      def handle_put(url, data)
         response = conn.put do |req|
           req.url url
           req.body = data
@@ -111,17 +101,13 @@ module Adafruit
         end
       end
 
-      def handle_delete(url, options = {})
+      def handle_delete(url, _data = nil)
         response = conn.delete do |req|
           req.url url
         end
 
         if response.status < 200 || response.status > 299
-          if response.status === 404
-            nil
-          else
-            raise Adafruit::IO::RequestError.new("DELETE error: #{ response.body }", response)
-          end
+          raise Adafruit::IO::RequestError.new("DELETE error: #{ response.body }", response)
         else
           parsed_response response
         end

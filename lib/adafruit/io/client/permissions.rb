@@ -2,7 +2,7 @@ module Adafruit
   module IO
     class Client
       module Permissions
-        VALID_TYPES = %(feed group dashboard)
+        VALID_TYPES = %w(feed group dashboard).freeze
 
         # Get all permissions for a resource.
         #
@@ -25,13 +25,18 @@ module Adafruit
           get api_url(username, pluralize_type(arguments[0]), arguments[1], 'acl', arguments[2])
         end
 
+        #   client.create_permission(TYPE, KEY, { scope: 'public', mode: 'r' })
         def create_permission(*args)
           username, arguments = extract_username(args)
 
           assert_argument_size(arguments, 2)
           assert_resource_type(arguments[0])
 
-          permission_attrs = arguments.pop
+          permission_attrs = arguments[2]
+          if !permission_attrs.is_a?(Hash)
+            raise Adafruit::IO::Arguments::ArgumentError.new('create_permission requires resource type (string), resource key (string), and a Hash of permission attributes, e.g. { scope: "public", mode: "r" }')
+          end
+
           post api_url(username, pluralize_type(arguments[0]), arguments[1], 'acl'), permission_attrs
         end
 

@@ -1,18 +1,20 @@
+require 'adafruit/io/errors'
+
 module Adafruit
   module IO
     module Arguments
-      class ArgumentError < StandardError; end
-
       # Allows us to give a username during client initialization or with a specific method.
       def extract_username(args)
         username = @username
 
         if args.last.is_a?(Hash) && args.last.has_key?(:username)
-          username = args.last.delete(:username)
+          options = args.last.dup
+          username = options.delete(:username)
+          args = args[0...-1] + [options]
         end
 
         if username.nil?
-          raise "cannot make request when username is nil"
+          raise ArgumentError.new("cannot make request when username is nil")
         end
 
         [ username, args ]
@@ -34,10 +36,11 @@ module Adafruit
           record_or_key
         elsif record_or_key.is_a?(Hash) && (record_or_key.has_key?('key') || record_or_key.has_key?(:key))
           record_or_key['key'] || record_or_key[:key]
-        elsif record_or_key.respond_to?(:key)
+        elsif !record_or_key.is_a?(Hash) && record_or_key.respond_to?(:key)
+          # Hash#key(value) exists, so plain hashes must not land here
           record_or_key.key
         else
-          raise 'unrecognized object or key value in arguments'
+          raise ArgumentError.new('unrecognized object or key value in arguments')
         end
       end
 
@@ -53,18 +56,23 @@ module Adafruit
         elsif record_or_id.respond_to?(:id)
           record_or_id.id
         else
-          raise 'unrecognized object or id value in arguments'
+          raise ArgumentError.new('unrecognized object or id value in arguments')
         end
       end
 
-      # Get a filtered list of parameters from the next argument
+      # Get a filtered list of parameters from the next argument. Accepts
+      # either symbol or string keys.
       def get_query_from_arguments(arguments, params)
         query = {}
         options = arguments.shift
         return query if options.nil?
 
         params.each do |param|
-          query[param] = options[param.to_sym] if options.has_key?(param.to_sym)
+          if options.has_key?(param.to_sym)
+            query[param] = options[param.to_sym]
+          elsif options.has_key?(param.to_s)
+            query[param] = options[param.to_s]
+          end
         end
         query
       end
